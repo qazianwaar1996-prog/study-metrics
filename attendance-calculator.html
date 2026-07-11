@@ -9,6 +9,22 @@
 <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
 <link rel="icon" type="image/png" href="images/favicon.png">
 <link rel="apple-touch-icon" href="images/favicon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Study Metrics">
+<meta property="og:title" content="Attendance Calculator — Study Metrics">
+<meta property="og:description" content="See your attendance percentage and how many classes you can safely skip.">
+<meta property="og:url" content="https://studymetrics.app/attendance-calculator.html">
+<meta property="og:image" content="images/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Attendance Calculator — Study Metrics">
+<meta name="twitter:description" content="How many classes can you skip?">
+<meta name="twitter:image" content="images/og-image.png">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://studymetrics.app/"},{"@type":"ListItem","position":2,"name":"Attendance Calculator","item":"https://studymetrics.app/attendance-calculator.html"}]}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How many classes can I skip?","acceptedAnswer":{"@type":"Answer","text":"Enter your numbers. If you're above the required minimum, the result shows exactly how many you can miss before dropping below it."}},{"@type":"Question","name":"What's the usual minimum attendance?","acceptedAnswer":{"@type":"Answer","text":"Most institutions require 75%, though some use 80% or 85%. Set the required field to match your own rules."}},{"@type":"Question","name":"Is my data saved?","acceptedAnswer":{"@type":"Answer","text":"No. It all runs in your browser and nothing is uploaded anywhere."}}]}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=Inter:wght@400;450;500;600&display=swap" rel="stylesheet">
@@ -22,7 +38,6 @@
     <div class="nav-cta"><a href="index.html#tools" class="btn btn-ghost">All tools</a><button class="menu-toggle" id="menuToggle" aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button></div>
   </div>
 </header>
-
 <section class="tool-head">
   <div class="grid-bg"></div>
   <div class="wrap">
@@ -66,7 +81,8 @@
     <h2>How attendance percentage works</h2>
     <p>Your attendance percentage is simply the classes you attended divided by the total classes held, times 100. Most colleges set a minimum, commonly 75%, that you must maintain to sit exams. This tool tells you not just where you stand, but what your choices cost.</p>
     <p>If you're above the minimum, it calculates how many upcoming classes you could miss and still stay compliant. If you're below, it works out how many you'd need to attend in a row to recover, assuming no more absences.</p>
-    
+    <h3>The bunk math</h3>
+    <p>To find safe skips, we solve for the largest number of future absences that keeps attended ÷ (total + absences) at or above your required percentage. To recover, we find the smallest number of consecutive future classes that lifts you back over the line.</p>
     <div class="faq">
       <details open><summary>How many classes can I skip?</summary><p>Enter your numbers above. If you're above the required minimum, the result shows exactly how many you can miss before dropping below it.</p></details>
       <details><summary>What's the usual minimum attendance?</summary><p>Most institutions require 75%, though some use 80% or 85%. Set the required field to match your own rules.</p></details>
@@ -74,18 +90,6 @@
     </div>
   </div>
 </div>
-
-<section class="related">
-  <div class="wrap">
-    <h2 style="font-size:var(--step-lg)">More student tools</h2>
-    <div class="rel-grid">
-      <a href="gpa.html" class="rel-card"><span class="rel-ico"></span><span><b>GPA Calculator</b><span>Single-term GPA</span></span></a>
-      <a href="percentage-calculator.html" class="rel-card"><span class="rel-ico"></span><span><b>Percentage</b><span>Marks & percentages</span></span></a>
-      <a href="final-grade.html" class="rel-card"><span class="rel-ico"></span><span><b>Final Grade</b><span>Score needed on your final</span></span></a>
-      <a href="gpa-converter.html" class="rel-card"><span class="rel-ico"></span><span><b>Global GPA Converter</b><span>30+ countries → US 4.0</span></span></a>
-    </div>
-  </div>
-</section>
 
 <footer class="foot">
   <div class="wrap">
@@ -98,7 +102,6 @@
     <div class="foot-bottom"><span>© 2026 Study Metrics. All rights reserved.</span><span>Free tools for students, worldwide.</span></div>
   </div>
 </footer>
-
 <script src="js/script.js"></script>
 <script src="js/attendance-calculator.js"></script>
 </body>
