@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Final Grade Calculator — Study Metrics</title>
-<meta name="description" content="Free final grade calculator. Enter your current grade, target grade and final exam weight to find the exact score you need on your final.">
+<meta name="description" content="Free final grade calculator. Enter your current grade, target grade and final exam weight to find the exact score you need on your final to hit your goal.">
 <link rel="canonical" href="https://studymetrics.app/final-grade.html">
 <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
 <link rel="icon" type="image/png" href="images/favicon.png">
@@ -14,13 +14,16 @@
 <meta property="og:title" content="Final Grade Calculator — Study Metrics">
 <meta property="og:description" content="Find the exact score you need on your final exam to hit your goal.">
 <meta property="og:url" content="https://studymetrics.app/final-grade.html">
-<meta property="og:image" content="https://studymetrics.app/images/og-image.png">
+<meta property="og:image" content="images/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Final Grade Calculator — Study Metrics">
 <meta name="twitter:description" content="What do you need on your final?">
-<meta name="twitter:image" content="https://studymetrics.app/images/og-image.png">
+<meta name="twitter:image" content="images/og-image.png">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What if I need more than 100%?","acceptedAnswer":{"@type":"Answer","text":"Your target can't be reached with the final alone. Consider extra credit or a lower goal."}},{"@type":"Question","name":"Where do I find the final's weight?","acceptedAnswer":{"@type":"Answer","text":"It's listed in your syllabus, often as a percentage of the total grade."}},{"@type":"Question","name":"Is my data saved anywhere?","acceptedAnswer":{"@type":"Answer","text":"No. Everything is calculated in your browser."}}]}
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://studymetrics.app/"},{"@type":"ListItem","position":2,"name":"Final Grade Calculator","item":"https://studymetrics.app/final-grade.html"}]}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What if I need more than 100%?","acceptedAnswer":{"@type":"Answer","text":"It means your target can't be reached with the final exam alone. Consider whether extra credit is available, or set a slightly lower goal."}},{"@type":"Question","name":"Where do I find my current grade and the final's weight?","acceptedAnswer":{"@type":"Answer","text":"Your current grade is usually in your course portal or gradebook. The final's weight is listed in your syllabus."}},{"@type":"Question","name":"Is my data saved anywhere?","acceptedAnswer":{"@type":"Answer","text":"No. Everything is calculated in your browser and your inputs never leave your device."}}]}
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -40,10 +43,9 @@
   <div class="wrap">
     <div class="crumb"><a href="index.html">Home</a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m9 18 6-6-6-6"/></svg><span>Final Grade Calculator</span></div>
     <h1>Final Grade Calculator</h1>
-    <p>Enter your current grade, the grade you're aiming for, and how much the final is worth. We'll show the exact score to hit your target.</p>
+    <p>Walking into your final and not sure what you need? Enter your current grade, the grade you're aiming for, and how much the final is worth. We'll show the exact score to hit your target.</p>
   </div>
 </section>
-<div class="ad-slot" aria-hidden="true"><div class="ad-inner"><span class="tag">Advertisement</span><span class="hint">Leaderboard ad slot</span></div></div>
 <div class="wrap">
   <div class="tool-layout wide-rail-lg">
     <div class="calc-main">
@@ -77,27 +79,25 @@
     </div>
   </div>
 </div>
-<div class="ad-slot" aria-hidden="true"><div class="ad-inner"><span class="tag">Advertisement</span><span class="hint">In-content ad slot</span></div></div>
 <div class="wrap">
   <div class="prose">
     <h2>How the final grade calculation works</h2>
-    <p>The formula is: <strong>required final = (goal − current × (1 − weight)) ÷ weight</strong>, with weight as a decimal. If the result is above 100%, the goal isn't reachable on that exam alone.</p>
+    <p>Your final course grade is a weighted blend of two things: the work you've already done and your final exam. If the final is worth 30%, then your existing grade counts for the other 70%. To find the score you need, we solve for the final so the two pieces add up to your goal.</p>
+    <p>The formula is: <strong>required final = (goal − current × (1 − weight)) ÷ weight</strong>, with the weight expressed as a decimal.</p>
     <div class="faq">
-      <details open><summary>What if I need more than 100%?</summary><p>Your target can't be reached with the final alone. Consider extra credit or a lower goal.</p></details>
-      <details><summary>Where do I find the final's weight?</summary><p>It's in your syllabus, usually a percentage of the total grade.</p></details>
-      <details><summary>Is my data saved anywhere?</summary><p>No. Everything is calculated in your browser.</p></details>
+      <details open><summary>What if I need more than 100%?</summary><p>It means your target can't be reached with the final exam alone. Consider whether extra credit is available, or set a slightly lower goal that's actually achievable.</p></details>
+      <details><summary>Where do I find my current grade and the final's weight?</summary><p>Your current grade is usually in your course portal. The final's weight is listed in your syllabus.</p></details>
     </div>
   </div>
 </div>
 <footer class="foot">
   <div class="wrap">
     <div class="foot-grid">
-      <div class="foot-brand"><a href="index.html" class="logo"><span class="logo-mark"><span class="logo-dot"></span></span>Study&nbsp;Metrics</a><p>A free, growing collection of fast, focused tools for students. No accounts, no clutter.</p></div>
+      <div class="foot-brand"><a href="index.html" class="logo"><span class="logo-mark"><span class="logo-dot"></span></span>Study&nbsp;Metrics</a><p>Fast, focused tools for students.</p></div>
       <div class="foot-col"><h4>Tools</h4><a href="gpa-converter.html">Global GPA Converter</a><a href="gpa.html">GPA Calculator</a><a href="cgpa.html">CGPA Calculator</a><a href="target-gpa.html">Target GPA</a><a href="grade-calculator.html">Grade Calculator</a></div>
-      <div class="foot-col"><h4>Company</h4><a href="about.html">About</a><a href="blog.html">Blog</a><a href="contact.html">Contact</a></div>
-      <div class="foot-col"><h4>Legal</h4><a href="privacy-policy.html">Privacy Policy</a><a href="terms-and-conditions.html">Terms & Conditions</a><a href="disclaimer.html">Disclaimer</a></div>
+      <div class="foot-col"><h4>Legal</h4><a href="privacy-policy.html">Privacy Policy</a><a href="terms-and-conditions.html">Terms & Conditions</a></div>
     </div>
-    <div class="foot-bottom"><span>© 2026 Study Metrics. All rights reserved.</span><span>Free tools for students, worldwide.</span></div>
+    <div class="foot-bottom"><span>© 2026 Study Metrics. All rights reserved.</span></div>
   </div>
 </footer>
 <script src="js/script.js"></script>
