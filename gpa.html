@@ -5,27 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GPA Calculator — Study Metrics</title>
 <meta name="description" content="Free GPA calculator. Add your courses, grades and credit hours to instantly calculate your weighted grade point average on the 4.0 scale. No signup.">
-<link rel="canonical" href="https://studymetrics.app/gpa.html">
 <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
-<link rel="icon" type="image/png" href="images/favicon.png">
-<link rel="apple-touch-icon" href="images/favicon.png">
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="Study Metrics">
-<meta property="og:title" content="GPA Calculator — Study Metrics">
-<meta property="og:description" content="Free weighted GPA calculator on the 4.0 scale. No signup, no limits.">
-<meta property="og:url" content="https://studymetrics.app/gpa.html">
-<meta property="og:image" content="https://studymetrics.app/images/og-image.png">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="GPA Calculator — Study Metrics">
-<meta name="twitter:description" content="Free weighted GPA calculator. No signup.">
-<meta name="twitter:image" content="https://studymetrics.app/images/og-image.png">
-<script type="application/ld+json">
-{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is this GPA calculator free?","acceptedAnswer":{"@type":"Answer","text":"Yes, completely. Every tool on Study Metrics is free to use with no account, no signup and no limits."}},{"@type":"Question","name":"Does my data get saved or sent anywhere?","acceptedAnswer":{"@type":"Answer","text":"No. All calculations happen right in your browser. Your courses and grades never leave your device."}},{"@type":"Question","name":"What's the difference between GPA and CGPA?","acceptedAnswer":{"@type":"Answer","text":"GPA usually refers to a single term, while CGPA rolls up every semester of your degree."}}]}
-</script>
+<link rel="stylesheet" href="css/style.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=Inter:wght@400;450;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 <header class="site-head">
@@ -35,6 +19,7 @@
     <div class="nav-cta"><a href="index.html#tools" class="btn btn-ghost">All tools</a><button class="menu-toggle" id="menuToggle" aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button></div>
   </div>
 </header>
+
 <section class="tool-head">
   <div class="grid-bg"></div>
   <div class="wrap">
@@ -43,7 +28,7 @@
     <p>Add your courses, pick each grade and enter the credit hours. Your weighted GPA updates instantly on the 4.0 scale.</p>
   </div>
 </section>
-<div class="ad-slot" aria-hidden="true"><div class="ad-inner"><span class="tag">Advertisement</span><span class="hint">Leaderboard ad slot</span></div></div>
+
 <div class="wrap">
   <div class="tool-layout">
     <div class="calc-main">
@@ -60,8 +45,8 @@
           <div id="rows"></div>
         </div>
         <div class="calc-actions">
-          <button class="btn btn-primary" id="addRow2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Add another course</button>
-          <button class="btn btn-danger" id="clearAll"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m-9 0v14a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2V6"/></svg>Clear all</button>
+          <button class="btn btn-primary" id="addRow2">Add another course</button>
+          <button class="btn btn-danger" id="clearAll">Clear all</button>
         </div>
       </div>
     </div>
@@ -70,38 +55,33 @@
         <div class="label">Your GPA · 4.0 scale</div>
         <div class="gpa-big tnum" id="gpaOut">0.00</div>
         <div class="gpa-sub" id="gpaLetter">Add a course to begin</div>
-        <div class="gpa-meta"><div><div class="n tnum" id="mCourses">0</div><div class="l">Courses</div></div><div><div class="n tnum" id="mCredits">0</div><div class="l">Credits</div></div></div>
       </div>
       <div class="scale-note" id="scaleNote"></div>
-      <div class="scale-note" style="background:var(--accent-dim);border-color:transparent"><b>Studying abroad?</b> Use the <a href="gpa-converter.html" style="color:var(--accent-strong);font-weight:600">Global GPA Converter</a> to translate grades from 30+ countries.</div>
     </div>
   </div>
 </div>
-<div class="ad-slot" aria-hidden="true"><div class="ad-inner"><span class="tag">Advertisement</span><span class="hint">In-content ad slot</span></div></div>
+
 <div class="wrap">
   <div class="prose">
     <h2>How to calculate your GPA</h2>
-    <p>Your GPA is a weighted average of your grades, where each course counts in proportion to its credit hours. A 4-credit course affects your GPA twice as much as a 2-credit one.</p>
-    <ul><li>Convert each letter grade to its grade point value (A = 4.0, B = 3.0, and so on).</li><li>Multiply each course's grade points by its credit hours to get "quality points."</li><li>Add up all the quality points, then divide by the total number of credits.</li></ul>
-    <p>So an A (4.0) in a 3-credit class and a B (3.0) in a 4-credit class gives (4.0 × 3 + 3.0 × 4) ÷ 7 = 3.43 GPA.</p>
+    <p>Your Grade Point Average (GPA) is a weighted average of your grades. A course worth 4 credits affects your GPA twice as much as a 2-credit course.</p>
     <div class="faq">
-      <details open><summary>Is this GPA calculator free?</summary><p>Yes, completely. No account, no signup and no limits.</p></details>
-      <details><summary>Does my data get saved or sent anywhere?</summary><p>No. All calculations happen in your browser. Your grades never leave your device.</p></details>
-      <details><summary>What's the difference between GPA and CGPA?</summary><p>GPA is a single term; CGPA rolls up every semester. Use our <a href="cgpa.html">CGPA Calculator</a> for the cumulative version.</p></details>
+      <details open><summary>Is this GPA calculator free?</summary><p>Yes, completely. No account or signup required.</p></details>
+      <details><summary>What is the difference between GPA and CGPA?</summary><p>GPA is for one term/semester. CGPA is cumulative for your whole degree.</p></details>
     </div>
   </div>
 </div>
+
 <footer class="foot">
   <div class="wrap">
     <div class="foot-grid">
-      <div class="foot-brand"><a href="index.html" class="logo"><span class="logo-mark"><span class="logo-dot"></span></span>Study&nbsp;Metrics</a><p>A free, growing collection of fast, focused tools for students. No accounts, no clutter.</p></div>
-      <div class="foot-col"><h4>Tools</h4><a href="gpa-converter.html">Global GPA Converter</a><a href="gpa.html">GPA Calculator</a><a href="cgpa.html">CGPA Calculator</a><a href="target-gpa.html">Target GPA</a><a href="grade-calculator.html">Grade Calculator</a></div>
-      <div class="foot-col"><h4>Company</h4><a href="about.html">About</a><a href="blog.html">Blog</a><a href="contact.html">Contact</a></div>
-      <div class="foot-col"><h4>Legal</h4><a href="privacy-policy.html">Privacy Policy</a><a href="terms-and-conditions.html">Terms & Conditions</a><a href="disclaimer.html">Disclaimer</a></div>
+      <div class="foot-brand"><a href="index.html" class="logo">Study Metrics</a><p>Free tools for students.</p></div>
+      <div class="foot-col"><h4>Tools</h4><a href="gpa-converter.html">Global Converter</a><a href="cgpa.html">CGPA Calculator</a><a href="target-gpa.html">Target GPA</a></div>
+      <div class="foot-col"><h4>Legal</h4><a href="privacy-policy.html">Privacy Policy</a><a href="terms-and-conditions.html">Terms</a></div>
     </div>
-    <div class="foot-bottom"><span>© 2026 Study Metrics. All rights reserved.</span><span>Free tools for students, worldwide.</span></div>
   </div>
 </footer>
+
 <script src="js/script.js"></script>
 <script src="js/gpa.js"></script>
 </body>
