@@ -4,45 +4,102 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Attendance Calculator — Study Metrics</title>
+<meta name="description" content="Free attendance percentage calculator. See your current attendance, how many classes you can skip while staying above the required minimum, or how many you must attend to recover.">
+<link rel="canonical" href="https://studymetrics.app/attendance-calculator.html">
+<link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+<link rel="icon" type="image/png" href="images/favicon.png">
+<link rel="apple-touch-icon" href="images/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=Inter:wght@400;450;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 <header class="site-head">
   <div class="wrap nav">
-    <a href="index.html" class="logo">Study&nbsp;Metrics</a>
-    <nav class="nav-links"><a href="index.html#tools">Tools</a><a href="attendance-calculator.html" class="on">Attendance</a></nav>
-    <div class="nav-cta"><button class="menu-toggle" id="menuToggle">Menu</button></div>
+    <a href="index.html" class="logo"><span class="logo-mark"><span class="logo-dot"></span></span>Study&nbsp;Metrics</a>
+    <nav class="nav-links"><a href="index.html#tools">Tools</a><a href="attendance-calculator.html" class="on">Attendance</a><a href="about.html">About</a><a href="blog.html">Blog</a></nav>
+    <div class="nav-cta"><a href="index.html#tools" class="btn btn-ghost">All tools</a><button class="menu-toggle" id="menuToggle" aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button></div>
   </div>
 </header>
+
 <section class="tool-head">
+  <div class="grid-bg"></div>
   <div class="wrap">
+    <div class="crumb"><a href="index.html">Home</a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m9 18 6-6-6-6"/></svg><span>Attendance Calculator</span></div>
     <h1>Attendance Calculator</h1>
-    <p>Check your current percentage and see how many classes you can skip.</p>
+    <p>See your current attendance percentage, how many classes you can safely skip, or how many you need to attend to climb back above the required minimum.</p>
   </div>
 </section>
+
 <div class="wrap">
   <div class="tool-layout wide-rail">
     <div class="calc-main">
       <div class="panel">
         <div class="inputs">
           <div class="pair">
-            <div class="field"><label for="attended">Classes attended</label><input class="input lg tnum" id="attended" type="number" value="42"></div>
-            <div class="field"><label for="held">Total classes held</label><input class="input lg tnum" id="held" type="number" value="50"></div>
+            <div class="field"><label for="attended">Classes attended</label><input class="input lg tnum" id="attended" type="number" min="0" value="42"><div class="hint">How many you've been to</div></div>
+            <div class="field"><label for="held">Total classes held</label><input class="input lg tnum" id="held" type="number" min="0" value="50"><div class="hint">Total conducted so far</div></div>
           </div>
-          <div class="field"><label for="req">Required attendance (%)</label><input class="input lg tnum" id="req" type="number" value="75"></div>
+          <div class="field"><label for="req">Required attendance</label><div class="input-unit"><input class="input lg tnum" id="req" type="number" min="0" max="100" value="75"><span class="unit">%</span></div><div class="hint">The minimum your institution requires (often 75%)</div></div>
         </div>
       </div>
     </div>
     <div class="result-rail">
       <div class="ring-card">
-        <div class="mid"><span class="pct tnum" id="pct">—</span><span class="lbl">current</span></div>
-        <div class="ring-status" id="status">Enter numbers</div>
+        <div class="ring">
+          <svg width="180" height="180" viewBox="0 0 180 180">
+            <circle cx="90" cy="90" r="78" fill="none" stroke="oklch(0.4 0.01 74)" stroke-width="12"/>
+            <circle id="ringArc" cx="90" cy="90" r="78" fill="none" stroke="var(--accent)" stroke-width="12" stroke-linecap="round" stroke-dasharray="490" stroke-dashoffset="490" style="transition:stroke-dashoffset .6s var(--ease),stroke .3s"/>
+          </svg>
+          <div class="mid"><span class="pct tnum" id="pct">—</span><span class="lbl">current</span></div>
+        </div>
+        <div class="ring-status" id="status">Enter your numbers</div>
       </div>
-      <div class="verdict ok" id="verdict"><span id="verdictText"></span></div>
+      <div class="verdict ok" id="verdict"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span id="verdictText"></span></div>
     </div>
   </div>
 </div>
+
+<div class="wrap">
+  <div class="prose">
+    <h2>How attendance percentage works</h2>
+    <p>Your attendance percentage is simply the classes you attended divided by the total classes held, times 100. Most colleges set a minimum, commonly 75%, that you must maintain to sit exams. This tool tells you not just where you stand, but what your choices cost.</p>
+    <p>If you're above the minimum, it calculates how many upcoming classes you could miss and still stay compliant. If you're below, it works out how many you'd need to attend in a row to recover, assuming no more absences.</p>
+    
+    <div class="faq">
+      <details open><summary>How many classes can I skip?</summary><p>Enter your numbers above. If you're above the required minimum, the result shows exactly how many you can miss before dropping below it.</p></details>
+      <details><summary>What's the usual minimum attendance?</summary><p>Most institutions require 75%, though some use 80% or 85%. Set the required field to match your own rules.</p></details>
+      <details><summary>Is my data saved?</summary><p>No. It all runs in your browser and nothing is uploaded anywhere.</p></details>
+    </div>
+  </div>
+</div>
+
+<section class="related">
+  <div class="wrap">
+    <h2 style="font-size:var(--step-lg)">More student tools</h2>
+    <div class="rel-grid">
+      <a href="gpa.html" class="rel-card"><span class="rel-ico"></span><span><b>GPA Calculator</b><span>Single-term GPA</span></span></a>
+      <a href="percentage-calculator.html" class="rel-card"><span class="rel-ico"></span><span><b>Percentage</b><span>Marks & percentages</span></span></a>
+      <a href="final-grade.html" class="rel-card"><span class="rel-ico"></span><span><b>Final Grade</b><span>Score needed on your final</span></span></a>
+      <a href="gpa-converter.html" class="rel-card"><span class="rel-ico"></span><span><b>Global GPA Converter</b><span>30+ countries → US 4.0</span></span></a>
+    </div>
+  </div>
+</section>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand"><a href="index.html" class="logo"><span class="logo-mark"><span class="logo-dot"></span></span>Study&nbsp;Metrics</a><p>A free, growing collection of fast, focused tools for students. No accounts, no clutter.</p></div>
+      <div class="foot-col"><h4>Tools</h4><a href="gpa-converter.html">Global GPA Converter</a><a href="gpa.html">GPA Calculator</a><a href="cgpa.html">CGPA Calculator</a><a href="target-gpa.html">Target GPA</a><a href="grade-calculator.html">Grade Calculator</a></div>
+      <div class="foot-col"><h4>Company</h4><a href="about.html">About</a><a href="blog.html">Blog</a><a href="contact.html">Contact</a></div>
+      <div class="foot-col"><h4>Legal</h4><a href="privacy-policy.html">Privacy Policy</a><a href="terms-and-conditions.html">Terms & Conditions</a><a href="disclaimer.html">Disclaimer</a></div>
+    </div>
+    <div class="foot-bottom"><span>© 2026 Study Metrics. All rights reserved.</span><span>Free tools for students, worldwide.</span></div>
+  </div>
+</footer>
+
 <script src="js/script.js"></script>
 <script src="js/attendance-calculator.js"></script>
 </body>
-</html> 
+</html>
