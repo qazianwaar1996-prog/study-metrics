@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Word Counter — Study Metrics</title>
+<meta name="description" content="Free word and character counter for essays. Live word count, characters, sentences, paragraphs and reading time. Auto-saves your draft.">
+<link rel="canonical" href="https://studymetrics.app/word-counter.html">
+<link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+<link rel="icon" type="image/png" href="images/favicon.png">
+<link rel="apple-touch-icon" href="images/favicon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Study Metrics">
+<meta property="og:title" content="Word Counter — Study Metrics">
+<meta property="og:description" content="Live word, character, sentence and reading-time counts for essays. Free.">
+<meta property="og:url" content="https://studymetrics.app/word-counter.html">
+<meta property="og:image" content="https://studymetrics.app/images/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Word Counter — Study Metrics">
+<meta name="twitter:description" content="Free live word counter for essays.">
+<meta name="twitter:image" content="https://studymetrics.app/images/og-image.png">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Does it count words as I type?","acceptedAnswer":{"@type":"Answer","text":"Yes, everything updates instantly. No button, no length limit."}},{"@type":"Question","name":"Is my text saved or uploaded?","acceptedAnswer":{"@type":"Answer","text":"Your draft is saved only in your browser. Nothing is sent to a server."}}]}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=Inter:wght@400;450;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header class="site-head">
+  <div class="wrap nav">
+    <a href="index.html" class="logo"><span class="logo-mark"><span class="logo-dot"></span></span>Study&nbsp;Metrics</a>
+    <nav class="nav-links"><a href="index.html#tools">Tools</a><a href="word-counter.html" class="on">Word Counter</a><a href="about.html">About</a><a href="blog.html">Blog</a></nav>
+    <div class="nav-cta"><a href="index.html#tools" class="btn btn-ghost">All tools</a><button class="menu-toggle" id="menuToggle" aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button></div>
+  </div>
+</header>
+<section class="tool-head">
+  <div class="grid-bg"></div>
+  <div class="wrap">
+    <div class="crumb"><a href="index.html">Home</a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m9 18 6-6-6-6"/></svg><span>Word Counter</span></div>
+    <h1>Word &amp; Character Counter</h1>
+    <p>Paste or type your essay to see live word count, characters, sentences, paragraphs and reading time. Auto-saved in your browser.</p>
+  </div>
+</section>
+<div class="ad-slot" aria-hidden="true"><div class="ad-inner"><span class="tag">Advertisement</span><span class="hint">Leaderboard ad slot</span></div></div>
+<div class="wrap">
+  <div class="counter">
+    <div class="stat-strip">
+      <div class="stat hero-stat"><div class="n tnum" id="s_words">0</div><div class="l">Words</div></div>
+      <div class="stat"><div class="n tnum" id="s_chars">0</div><div class="l">Characters</div></div>
+      <div class="stat"><div class="n tnum" id="s_nospace">0</div><div class="l">No spaces</div></div>
+      <div class="stat"><div class="n tnum" id="s_sent">0</div><div class="l">Sentences</div></div>
+      <div class="stat"><div class="n tnum" id="s_para">0</div><div class="l">Paragraphs</div></div>
+      <div class="stat"><div class="n tnum" id="s_read">0s</div><div class="l">Reading time</div></div>
+    </div>
+    <div style="position:relative">
+      <textarea class="editor" id="editor" placeholder="Start typing or paste your text here…"></textarea>
+      <div class="editor-bar">
+        <span class="chip">Avg words/sentence <b id="s_avg">0</b></span>
+        <span class="chip">Longest word <b id="s_long">—</b></span>
+        <div class="mini-actions">
+          <button class="btn btn-ghost" id="copyBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copy</button>
+          <button class="btn btn-ghost" id="clearBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="width:15px;height:15px"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m-9 0v14a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2V6"/></svg>Clear</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="ad-slot" aria-hidden="true"><div class="ad-inner"><span class="tag">Advertisement</span><span class="hint">In-content ad slot</span></div></div>
+<div class="wrap">
+  <div class="prose">
+    <h2>Why word count matters for students</h2>
+    <p>Most essays come with a word limit. This counter gives you a live count plus sentences, paragraphs and average sentence length to help tighten your writing. Reading time is estimated at ~200 words per minute.</p>
+    <div class="faq">
+      <details open><summary>Does it count words as I type?</summary><p>Yes, everything updates instantly. No button, no length limit.</p></details>
+      <details><summary>Is my text saved or uploaded?</summary><p>Your draft is saved only in your browser. Nothing is sent to a server.</p></details>
+    </div>
+  </div>
+</div>
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand"><a href="index.html" class="logo"><span class="logo-mark"><span class="logo-dot"></span></span>Study&nbsp;Metrics</a><p>A free, growing collection of fast, focused tools for students. No accounts, no clutter.</p></div>
+      <div class="foot-col"><h4>Tools</h4><a href="gpa-converter.html">Global GPA Converter</a><a href="gpa.html">GPA Calculator</a><a href="cgpa.html">CGPA Calculator</a><a href="percentage-calculator.html">Percentage</a><a href="word-counter.html">Word Counter</a></div>
+      <div class="foot-col"><h4>Company</h4><a href="about.html">About</a><a href="blog.html">Blog</a><a href="contact.html">Contact</a></div>
+      <div class="foot-col"><h4>Legal</h4><a href="privacy-policy.html">Privacy Policy</a><a href="terms-and-conditions.html">Terms & Conditions</a><a href="disclaimer.html">Disclaimer</a></div>
+    </div>
+    <div class="foot-bottom"><span>© 2026 Study Metrics. All rights reserved.</span><span>Free tools for students, worldwide.</span></div>
+  </div>
+</footer>
+<script src="js/script.js"></script>
+<script src="js/word-counter.js"></script>
+</body>
+</html>
