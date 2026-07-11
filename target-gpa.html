@@ -4,24 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Target GPA Calculator — Study Metrics</title>
-<meta name="description" content="Free target GPA calculator. Enter your current GPA, credits done and credits remaining to find the exact GPA you need to hit your goal.">
-<link rel="canonical" href="https://studymetrics.app/target-gpa.html">
 <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
-<link rel="icon" type="image/png" href="images/favicon.png">
-<link rel="apple-touch-icon" href="images/favicon.png">
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="Study Metrics">
-<meta property="og:title" content="Target GPA Calculator — Study Metrics">
-<meta property="og:description" content="Find the exact GPA you need in your remaining courses to hit your goal.">
-<meta property="og:url" content="https://studymetrics.app/target-gpa.html">
-<meta property="og:image" content="https://studymetrics.app/images/og-image.png">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Target GPA Calculator — Study Metrics">
-<meta name="twitter:description" content="What GPA do you need going forward?">
-<meta name="twitter:image" content="https://studymetrics.app/images/og-image.png">
-<script type="application/ld+json">
-{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What if the required GPA is above 4.0?","acceptedAnswer":{"@type":"Answer","text":"It means your goal can't be reached from your remaining credits alone. Lower the goal or look at retaking courses."}},{"@type":"Question","name":"What counts as credits completed?","acceptedAnswer":{"@type":"Answer","text":"All credit hours that already have a final grade and are factored into your current GPA."}},{"@type":"Question","name":"Is my data saved?","acceptedAnswer":{"@type":"Answer","text":"No. The calculation runs entirely in your browser and nothing is uploaded."}}]}
-</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=Inter:wght@400;450;500;600&display=swap" rel="stylesheet">
@@ -40,63 +23,37 @@
   <div class="wrap">
     <div class="crumb"><a href="index.html">Home</a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m9 18 6-6-6-6"/></svg><span>Target GPA Calculator</span></div>
     <h1>Target GPA Calculator</h1>
-    <p>Enter your current GPA and set a goal, and we'll tell you the exact GPA you need across your remaining credits to get there.</p>
+    <p>Know where you stand and where you want to be. Enter your current GPA and set a goal.</p>
   </div>
 </section>
-<div class="ad-slot" aria-hidden="true"><div class="ad-inner"><span class="tag">Advertisement</span><span class="hint">Leaderboard ad slot</span></div></div>
 <div class="wrap">
   <div class="tool-layout wide-rail">
     <div class="calc-main">
       <div class="panel">
         <div class="inputs">
           <div class="pair">
-            <div class="field"><label for="curGpa">Current GPA</label><input class="input lg tnum" id="curGpa" type="number" min="0" max="4" step="0.01" value="3.20"><div class="hint">On the 4.0 scale</div></div>
-            <div class="field"><label for="curCredits">Credits completed</label><input class="input lg tnum" id="curCredits" type="number" min="0" step="1" value="60"><div class="hint">Credit hours done so far</div></div>
+            <div class="field"><label for="curGpa">Current GPA</label><input class="input lg tnum" id="curGpa" type="number" min="0" max="4" step="0.01" value="3.20"></div>
+            <div class="field"><label for="curCredits">Credits completed</label><input class="input lg tnum" id="curCredits" type="number" min="0" step="1" value="60"></div>
           </div>
           <div class="pair">
-            <div class="field"><label for="remCredits">Credits remaining</label><input class="input lg tnum" id="remCredits" type="number" min="1" step="1" value="60"><div class="hint">Credits left in your degree</div></div>
-            <div class="field"><label for="goalGpa">Goal GPA</label><input class="input lg tnum" id="goalGpa" type="number" min="0" max="4" step="0.01" value="3.50"><div class="hint">The cumulative GPA you want</div></div>
+            <div class="field"><label for="remCredits">Credits remaining</label><input class="input lg tnum" id="remCredits" type="number" min="1" step="1" value="60"></div>
+            <div class="field"><label for="goalGpa">Goal GPA</label><input class="input lg tnum" id="goalGpa" type="number" min="0" max="4" step="0.01" value="3.50"></div>
           </div>
           <div class="field slider-wrap">
-            <div class="slider-val"><label style="margin:0" for="goalSlide">Slide your goal</label><b class="tnum" id="goalSlideVal">3.50</b></div>
+            <div class="slider-val"><label for="goalSlide">Slide your goal</label><b class="tnum" id="goalSlideVal">3.50</b></div>
             <input type="range" id="goalSlide" min="0" max="4" step="0.01" value="3.50">
           </div>
         </div>
       </div>
-      <div class="panel" style="margin-top:var(--s4)">
-        <div style="font-family:var(--font-display);font-weight:600;margin-bottom:var(--s4)">Your degree, visualized</div>
-        <div class="bar-track"><div class="bar-seg done" id="segDone"></div><div class="bar-seg need" id="segNeed"></div></div>
-        <div class="bar-legend"><span><span class="dot" style="background:var(--ink)"></span>Completed <b class="tnum" id="legDone" style="margin-left:4px">60 cr</b></span><span><span class="dot" style="background:var(--accent)"></span>Remaining <b class="tnum" id="legNeed" style="margin-left:4px">60 cr</b></span></div>
-      </div>
     </div>
     <div class="result-rail">
-      <div class="res-hero"><div class="label">You need to average</div><div class="res-big tnum" id="need">—</div><div class="res-sub" id="needSub">across your remaining credits</div></div>
-      <div class="verdict info" id="verdict"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><span id="verdictText"></span></div>
-    </div>
-  </div>
-</div>
-<div class="ad-slot" aria-hidden="true"><div class="ad-inner"><span class="tag">Advertisement</span><span class="hint">In-content ad slot</span></div></div>
-<div class="wrap">
-  <div class="prose">
-    <h2>How the target GPA calculation works</h2>
-    <p>We work backwards from your goal. The formula is: <strong>required GPA = (goal × total credits − current GPA × completed credits) ÷ remaining credits</strong>. If the answer is above 4.0, the goal isn't reachable from your remaining courses alone.</p>
-    <div class="faq">
-      <details open><summary>What if the required GPA is above 4.0?</summary><p>Your goal can't be reached from remaining credits alone. Lower the goal or look at retaking courses.</p></details>
-      <details><summary>What counts as "credits completed"?</summary><p>All credit hours that already have a final grade and count toward your current GPA.</p></details>
-      <details><summary>Is my data saved?</summary><p>No. It runs entirely in your browser.</p></details>
+      <div class="res-hero"><div class="label">You need to average</div><div class="res-big tnum" id="need">—</div><div class="res-sub" id="needSub">across remaining credits</div></div>
+      <div class="verdict info" id="verdict"><span id="verdictText"></span></div>
     </div>
   </div>
 </div>
 <footer class="foot">
-  <div class="wrap">
-    <div class="foot-grid">
-      <div class="foot-brand"><a href="index.html" class="logo"><span class="logo-mark"><span class="logo-dot"></span></span>Study&nbsp;Metrics</a><p>A free, growing collection of fast, focused tools for students. No accounts, no clutter.</p></div>
-      <div class="foot-col"><h4>Tools</h4><a href="gpa-converter.html">Global GPA Converter</a><a href="gpa.html">GPA Calculator</a><a href="cgpa.html">CGPA Calculator</a><a href="target-gpa.html">Target GPA</a><a href="grade-calculator.html">Grade Calculator</a></div>
-      <div class="foot-col"><h4>Company</h4><a href="about.html">About</a><a href="blog.html">Blog</a><a href="contact.html">Contact</a></div>
-      <div class="foot-col"><h4>Legal</h4><a href="privacy-policy.html">Privacy Policy</a><a href="terms-and-conditions.html">Terms & Conditions</a><a href="disclaimer.html">Disclaimer</a></div>
-    </div>
-    <div class="foot-bottom"><span>© 2026 Study Metrics. All rights reserved.</span><span>Free tools for students, worldwide.</span></div>
-  </div>
+  <div class="wrap"><div class="foot-bottom"><span>© 2026 Study Metrics. All rights reserved.</span></div></div>
 </footer>
 <script src="js/script.js"></script>
 <script src="js/target-gpa.js"></script>
