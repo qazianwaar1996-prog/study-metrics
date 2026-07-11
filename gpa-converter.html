@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Global GPA Converter — Study Metrics</title>
-<meta name="description" content="Free global GPA converter. Convert grades from 30+ countries (India, UK, Pakistan, Europe/ECTS and more) to the US 4.0 scale, or reverse. No signup, no limits.">
+<meta name="description" content="Free global GPA converter. Convert grades from 30+ countries (India, UK, Pakistan, Europe/ECTS and more) to the US 4.0 scale, or reverse a US GPA into any system. No signup, no limits.">
 <link rel="canonical" href="https://studymetrics.app/gpa-converter.html">
 <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
 <link rel="icon" type="image/png" href="images/favicon.png">
@@ -12,13 +12,16 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Study Metrics">
 <meta property="og:title" content="Global GPA Converter — Study Metrics">
-<meta property="og:description" content="Convert grades from 30+ countries to the US 4.0 scale, or reverse. Free.">
+<meta property="og:description" content="Convert grades from 30+ countries to the US 4.0 scale, or reverse. Free, no signup, no limits.">
 <meta property="og:url" content="https://studymetrics.app/gpa-converter.html">
-<meta property="og:image" content="https://studymetrics.app/images/og-image.png">
+<meta property="og:image" content="images/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Global GPA Converter — Study Metrics">
 <meta name="twitter:description" content="Convert grades across 30+ grading systems. Free.">
-<meta name="twitter:image" content="https://studymetrics.app/images/og-image.png">
+<meta name="twitter:image" content="images/og-image.png">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://studymetrics.app/"},{"@type":"ListItem","position":2,"name":"Global GPA Converter","item":"https://studymetrics.app/gpa-converter.html"}]}
+</script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Which grading systems does this support?","acceptedAnswer":{"@type":"Answer","text":"Over 30 systems including US 4.0, UK Honours, ECTS Europe, India 10-point CGPA and percentage, Pakistan HEC 4.0 and percentage, Canada, Australia, Germany, France, China and more."}},{"@type":"Question","name":"How are grades converted to a US GPA?","acceptedAnswer":{"@type":"Answer","text":"Each local grade is translated to its US point equivalent, multiplied by credits to get quality points, then total quality points are divided by total credits for the cumulative GPA."}},{"@type":"Question","name":"Can I convert a US GPA back to my country's scale?","acceptedAnswer":{"@type":"Answer","text":"Yes. Switch to US to Local mode, enter a US 4.0 GPA, and see the equivalent in Indian CGPA, ECTS, percentage and other systems."}},{"@type":"Question","name":"Is it free with no limits?","acceptedAnswer":{"@type":"Answer","text":"Completely free with no daily limit, no account and no paywall. You can export a full PDF report for free too."}}]}
 </script>
@@ -45,6 +48,7 @@
   </div>
 </section>
 <div class="ad-slot" aria-hidden="true"><div class="ad-inner"><span class="tag">Advertisement</span><span class="hint">Leaderboard ad slot</span></div></div>
+
 <div class="wrap" style="padding-top:var(--s6);display:flex;align-items:center;justify-content:space-between;gap:var(--s4);flex-wrap:wrap">
   <div class="mode-seg" role="tablist">
     <button class="on" data-mode="toUS"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>Local → US</button>
@@ -52,6 +56,7 @@
   </div>
   <button class="btn btn-primary" id="exportBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>Export Official Report (PDF)</button>
 </div>
+
 <div class="wrap" id="panel-toUS">
   <div class="tool-layout wide-rail-lg" style="padding-top:var(--s5)">
     <div class="calc-main">
@@ -91,6 +96,7 @@
     </div>
   </div>
 </div>
+
 <div class="wrap hidden" id="panel-toLocal">
   <div class="tool-layout wide-rail-lg" style="padding-top:var(--s5)">
     <div class="calc-main">
@@ -105,31 +111,34 @@
       </div>
     </div>
     <div class="result-rail">
-      <div class="scale-note"><b>How reverse works.</b> We map your US GPA to the closest band in each destination system. Because national scales group ranges differently, reverse results are best read as a <b>classification or range</b>, not an exact single number.</div>
+      <div class="scale-note"><b>How reverse works.</b> We map your US GPA to the closest band in each destination system. Because national scales group ranges differently, reverse results are best read as a <b>classification or range</b>, not an exact single number. Use them as a guide when reporting your GPA abroad.</div>
     </div>
   </div>
 </div>
-<div class="ad-slot" aria-hidden="true"><div class="ad-inner"><span class="tag">Advertisement</span><span class="hint">In-content ad slot</span></div></div>
+
+<div class="ad-slot" aria-hidden="true"><div class="ad-inner"><span class="tag">Advertisement</span><span class="hint">In-content ad slot (responsive)</span></div></div>
+
 <div class="wrap">
   <div class="prose">
     <h2>How the global GPA conversion works</h2>
-    <p>Every grading system can be mapped to the US 4.0 scale through a shared reference: the US letter grade and its point value. When you pick a country and scale, the calculator knows exactly how each local grade translates.</p>
-    <p>For every course, the engine runs the three steps admissions offices use:</p>
-    <ul><li><strong>Translate</strong> your local grade into its US point equivalent.</li><li><strong>Weight</strong> it by credits: Quality Points = US Points × Credits.</li><li><strong>Combine:</strong> Cumulative GPA = total Quality Points ÷ total Credits.</li></ul>
-    <p>Everything recalculates instantly, and your form is saved in your browser so a refresh never loses your work.</p>
+    <p>Every grading system in the world can be mapped to the US 4.0 scale through a shared reference: the US letter grade and its point value. Study Metrics uses a data-driven table of 30+ systems, so when you pick a country and scale, the calculator knows exactly how each local grade translates.</p>
+    <ul>
+      <li><strong>Translate</strong> local grade into US point equivalent.</li>
+      <li><strong>Weight</strong> it by credits (Quality Points = US Points × Credits).</li>
+      <li><strong>Combine:</strong> Cumulative GPA = total Quality Points ÷ total Credits.</li>
+    </ul>
     <div class="faq">
-      <details open><summary>Which grading systems does this support?</summary><p>Over 30, including US 4.0, UK Honours, ECTS Europe, India 10-point CGPA and percentage, Pakistan HEC 4.0 and percentage, Canada, Australia, Germany, France, China, Japan, and more.</p></details>
-      <details><summary>How are grades converted to a US GPA?</summary><p>Each local grade is translated to its US point equivalent, multiplied by credits to get quality points, then total quality points are divided by total credits.</p></details>
-      <details><summary>Can I convert a US GPA back to my country's scale?</summary><p>Yes. Switch to US → Local mode, enter a US 4.0 GPA, and see the equivalent in Indian CGPA, ECTS, percentage and other systems.</p></details>
-      <details><summary>Is it free with no limits?</summary><p>Completely free with no daily limit, no account and no paywall. You can export a full PDF report for free too.</p></details>
+      <details open><summary>Which grading systems does this support?</summary><p>Over 30 systems including US, UK, India, Pakistan, Canada, and more.</p></details>
+      <details><summary>Is it free with no limits?</summary><p>Yes, completely free with no signup or paywall.</p></details>
     </div>
   </div>
 </div>
+
 <footer class="foot">
   <div class="wrap">
     <div class="foot-grid">
       <div class="foot-brand"><a href="index.html" class="logo"><span class="logo-mark"><span class="logo-dot"></span></span>Study&nbsp;Metrics</a><p>A free, growing collection of fast, focused tools for students. No accounts, no clutter.</p></div>
-      <div class="foot-col"><h4>Tools</h4><a href="gpa-converter.html">Global GPA Converter</a><a href="gpa.html">GPA Calculator</a><a href="cgpa.html">CGPA Calculator</a><a href="target-gpa.html">Target GPA</a><a href="grade-calculator.html">Grade Calculator</a></div>
+      <div class="foot-col"><h4>Tools</h4><a href="gpa-converter.html">GPA Converter</a><a href="gpa.html">GPA Calculator</a><a href="cgpa.html">CGPA Calculator</a><a href="target-gpa.html">Target GPA</a><a href="grade-calculator.html">Grade Calculator</a></div>
       <div class="foot-col"><h4>Company</h4><a href="about.html">About</a><a href="blog.html">Blog</a><a href="contact.html">Contact</a></div>
       <div class="foot-col"><h4>Legal</h4><a href="privacy-policy.html">Privacy Policy</a><a href="terms-and-conditions.html">Terms & Conditions</a><a href="disclaimer.html">Disclaimer</a></div>
     </div>
