@@ -4,60 +4,64 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Grade Calculator — Study Metrics</title>
-<meta name="description" content="Free weighted grade calculator. Add each assignment, quiz and exam with its score and weight to see your current overall course grade instantly. No signup.">
+<meta name="description" content="Free weighted grade calculator. Add each assignment, quiz and exam with its score and weight to see your current overall course grade instantly.">
 <link rel="canonical" href="https://studymetrics.app/grade-calculator.html">
 <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
-<link rel="icon" type="image/png" href="images/favicon.png">
-<link rel="apple-touch-icon" href="images/favicon.png">
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="Study Metrics">
-<meta property="og:title" content="Grade Calculator — Study Metrics">
-<meta property="og:description" content="Weighted grade calculator. Add assignments and weights, see your course grade.">
-<meta property="og:url" content="https://studymetrics.app/grade-calculator.html">
-<meta property="og:image" content="images/og-image.png">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Grade Calculator — Study Metrics">
-<meta name="twitter:description" content="Weighted course grade calculator. Free.">
-<meta name="twitter:image" content="images/og-image.png">
-<script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://studymetrics.app/"},{"@type":"ListItem","position":2,"name":"Grade Calculator","item":"https://studymetrics.app/grade-calculator.html"}]}
-</script>
-<script type="application/ld+json">
-{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Do my weights need to add up to 100%?","acceptedAnswer":{"@type":"Answer","text":"Not necessarily. If they total 100%, you get your full course grade. If they total less, you get your grade for the portion completed so far."}},{"@type":"Question","name":"What's the difference between this and the final grade calculator?","acceptedAnswer":{"@type":"Answer","text":"This tool computes your current standing from all your items. The Final Grade Calculator works backwards."}},{"@type":"Question","name":"Is anything saved?","acceptedAnswer":{"@type":"Answer","text":"No. Everything runs locally in your browser."}}]}
-</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=Inter:wght@400;450;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+
 <header class="site-head">
-  <div class="wrap nav">
+  <nav class="wrap nav">
     <a href="index.html" class="logo"><span class="logo-mark"><span class="logo-dot"></span></span>Study&nbsp;Metrics</a>
-    <nav class="nav-links"><a href="index.html#tools">Tools</a><a href="grade-calculator.html" class="on">Grade Calc</a><a href="about.html">About</a><a href="blog.html">Blog</a></nav>
-    <div class="nav-cta"><a href="index.html#tools" class="btn btn-ghost">All tools</a><button class="menu-toggle" id="menuToggle" aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button></div>
-  </div>
+    <div class="nav-links">
+        <a href="index.html#tools">Tools</a>
+        <a href="grade-calculator.html" class="on">Grade Calc</a>
+        <a href="about.html">About</a>
+        <a href="blog.html">Blog</a>
+    </div>
+    <div class="nav-cta">
+        <a href="index.html#tools" class="btn btn-ghost">All tools</a>
+        <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+    </div>
+  </nav>
 </header>
+
 <section class="tool-head">
   <div class="grid-bg"></div>
-  <div class="wrap">
-    <div class="crumb"><a href="index.html">Home</a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m9 18 6-6-6-6"/></svg><span>Grade Calculator</span></div>
+  <div class="wrap reveal">
+    <div class="crumb">
+        <a href="index.html">Home</a>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m9 18 6-6-6-6"/></svg>
+        <span>Grade Calculator</span>
+    </div>
     <h1>Weighted Grade Calculator</h1>
     <p>Add every graded item in your course with its score and weight, and see your overall grade build in real time. Perfect for tracking where you stand before finals.</p>
   </div>
 </section>
-<div class="wrap">
+
+<div class="wrap reveal">
   <div class="tool-layout">
     <div class="calc-main">
       <div class="panel">
-        <div class="panel-head"><h2>Your graded items</h2><button class="btn btn-ghost" id="addRow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Add item</button></div>
+        <div class="panel-head">
+            <h2>Your graded items</h2>
+            <button class="btn btn-ghost" id="addRow">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Add item
+            </button>
+        </div>
         <div class="rows-weight">
           <div class="rows-head"><span>Item</span><span>Score (%)</span><span>Weight (%)</span><span></span></div>
           <div id="rows"></div>
         </div>
         <div class="calc-actions">
-          <button class="btn btn-primary" id="addRow2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Add another item</button>
-          <button class="btn btn-danger" id="clearAll"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m-9 0v14a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2V6"/></svg>Clear all</button>
+          <button class="btn btn-primary" id="addRow2">Add another item</button>
+          <button class="btn btn-danger" id="clearAll">Clear all</button>
         </div>
       </div>
     </div>
@@ -66,32 +70,33 @@
         <div class="label">Your current grade</div>
         <div class="grade-big tnum" id="gradeOut">—</div>
         <div class="grade-letter" id="gradeLetter">—</div>
+        <button class="btn btn-ghost" id="shareBtn" style="width:100%; margin-top:20px; background:rgba(255,255,255,0.1); color:white;">Copy Result</button>
       </div>
       <div class="weight-note ok" id="weightNote"></div>
     </div>
   </div>
 </div>
-<div class="wrap">
+
+<div class="wrap reveal">
   <div class="prose">
     <h2>How a weighted grade is calculated</h2>
-    <p>Most courses don't treat every assignment equally. Your final exam might be worth 40% while a quiz is worth 5%. A weighted grade multiplies each score by its weight, adds those up, and divides by the total weight.</p>
-    <p>The formula is: <strong>grade = Σ(score × weight) ÷ Σ(weight)</strong>.</p>
+    <p>Your final course grade is a weighted blend of your assignments. The formula is: <strong>grade = Σ(score × weight) ÷ Σ(weight)</strong>.</p>
     <div class="faq">
       <details open><summary>Do my weights need to add up to 100%?</summary><p>Not necessarily. If they total less, you get your grade for the portion completed so far, which is normal mid-semester.</p></details>
-      <details><summary>Is anything saved or uploaded?</summary><p>No. Everything runs locally in your browser and your grades never leave your device.</p></details>
     </div>
   </div>
 </div>
+
+<div id="backToTop">↑</div>
+
 <footer class="foot">
   <div class="wrap">
-    <div class="foot-grid">
-      <div class="foot-brand"><a href="index.html" class="logo"><span class="logo-mark"><span class="logo-dot"></span></span>Study&nbsp;Metrics</a><p>No accounts, no clutter.</p></div>
-      <div class="foot-col"><h4>Tools</h4><a href="gpa-converter.html">GPA Converter</a><a href="gpa.html">GPA Calculator</a><a href="cgpa.html">CGPA Calculator</a><a href="target-gpa.html">Target GPA</a><a href="grade-calculator.html">Grade Calculator</a></div>
-      <div class="foot-col"><h4>Legal</h4><a href="privacy-policy.html">Privacy Policy</a><a href="terms-and-conditions.html">Terms & Conditions</a></div>
+    <div class="foot-bottom">
+        <span>© 2026 Study Metrics. All rights reserved.</span>
     </div>
-    <div class="foot-bottom"><span>© 2026 Study Metrics. All rights reserved.</span></div>
   </div>
 </footer>
+
 <script src="js/script.js"></script>
 <script src="js/grade-calculator.js"></script>
 </body>
