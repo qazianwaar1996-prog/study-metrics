@@ -1,7 +1,6 @@
 /**
- * GLOBAL GPA CONVERTER - STUDY METRICS
- * This version is 100% self-contained. 
- * It does not require script.js to work.
+ * SELF-CONTAINED GLOBAL GPA CONVERTER + PDF EXPORT
+ * No external dependencies required.
  */
 (function () {
   "use strict";
@@ -22,12 +21,10 @@
     {id:"us40",country:"United States",system:"4.0 Letter (GPA)",type:"select",rows:[{g:"A+",p:4,l:"A+"},{g:"A",p:4,l:"A"},{g:"A-",p:3.7,l:"A-"},{g:"B+",p:3.3,l:"B+"},{g:"B",p:3,l:"B"},{g:"B-",p:2.7,l:"B-"},{g:"C+",p:2.3,l:"C+"},{g:"C",p:2,l:"C"},{g:"C-",p:1.7,l:"C-"},{g:"D+",p:1.3,l:"D+"},{g:"D",p:1,l:"D"},{g:"D-",p:0.7,l:"D-"},{g:"F",p:0,l:"F"}]},
     {id:"uk",country:"United Kingdom",system:"Honours Classification",type:"select",rows:[{g:"First (1st, 70–100%)",p:4.0,l:"A"},{g:"Upper Second (2:1, 60–69%)",p:3.7,l:"A-"},{g:"Lower Second (2:2, 50–59%)",p:3.0,l:"B"},{g:"Third (3rd, 40–49%)",p:2.3,l:"C+"},{g:"Fail (0–39%)",p:0,l:"F"}]},
     {id:"ects",country:"Europe",system:"ECTS Grade",type:"select",rows:[{g:"A (Excellent)",p:4.0,l:"A"},{g:"B (Very good)",p:3.5,l:"A-"},{g:"C (Good)",p:3.0,l:"B"},{g:"D (Satisfactory)",p:2.5,l:"B-"},{g:"E (Sufficient)",p:2.0,l:"C"},{g:"FX/F (Fail)",p:0,l:"F"}]},
-    {id:"india10",country:"India",system:"10-point CGPA",type:"number",max:10,step:"0.01",rows:[{g:"9.0–10 (O)",min:9.0,p:4.0,l:"A",repr:9.5},{g:"8.0–8.9 (A+)",min:8.0,p:3.7,l:"A-",repr:8.5},{g:"7.0–7.9 (A)",min:7.0,p:3.3,l:"B+",repr:7.5},{g:"6.0–6.9 (B+)",min:6.0,p:3.0,l:"B",repr:6.5},{g:"5.0–5.9 (B)",min:5.0,p:2.3,l:"C+",repr:5.5},{g:"4.0–4.9 (C)",min:4.0,p:2.0,l:"C",repr:4.5},{g:"Below 4.0 (F)",min:0,p:0,l:"F",repr:2}]},
-    {id:"indiapct",country:"India",system:"Percentage",type:"number",max:100,step:"0.1",rows:[{g:"90–100%",min:90,p:4.0,l:"A",repr:92},{g:"80–89%",min:80,p:3.7,l:"A-",repr:84},{g:"70–79%",min:70,p:3.3,l:"B+",repr:74},{g:"60–69%",min:60,p:3.0,l:"B",repr:64},{g:"50–59%",min:50,p:2.3,l:"C+",repr:54},{g:"40–49%",min:40,p:2.0,l:"C",repr:44},{g:"Below 40%",min:0,p:0,l:"F",repr:30}]},
-    {id:"pakhec",country:"Pakistan",system:"HEC 4.0 CGPA",type:"number",max:4,step:"0.01",rows:[{g:"3.7–4.0",min:3.7,p:4.0,l:"A",repr:3.85},{g:"3.3–3.69",min:3.3,p:3.7,l:"A-",repr:3.5},{g:"3.0–3.29",min:3.0,p:3.3,l:"B+",repr:3.15},{g:"2.7–2.99",min:2.7,p:3.0,l:"B",repr:2.85},{g:"2.0–2.69",min:2.0,p:2.3,l:"C+",repr:2.35},{g:"1.0–1.99",min:1.0,p:1.3,l:"D+",repr:1.5},{g:"Below 1.0",min:0,p:0,l:"F",repr:0.5}]},
-    {id:"pakpct",country:"Pakistan",system:"Percentage",type:"number",max:100,step:"0.1",rows:[{g:"85–100% (A+)",min:85,p:4.0,l:"A",repr:88},{g:"80–84% (A)",min:80,p:3.7,l:"A-",repr:82},{g:"75–79% (B+)",min:75,p:3.3,l:"B+",repr:77},{g:"71–74% (B)",min:71,p:3.0,l:"B",repr:72},{g:"68–70% (B-)",min:68,p:2.7,l:"B-",repr:69},{g:"64–67% (C+)",min:64,p:2.3,l:"C+",repr:65},{g:"61–63% (C)",min:61,p:2.0,l:"C",repr:62},{g:"57–60% (C-)",min:57,p:1.7,l:"C-",repr:58},{g:"53–56% (D+)",min:53,p:1.3,l:"D+",repr:54},{g:"50–52% (D)",min:50,p:1.0,l:"D",repr:51},{g:"Below 50% (F)",min:0,p:0,l:"F",repr:40}]},
-    {id:"canada",country:"Canada",system:"Percentage",type:"number",max:100,step:"0.1",rows:[{g:"90–100 (A+)",min:90,p:4.0,l:"A+",repr:93},{g:"85–89 (A)",min:85,p:4.0,l:"A",repr:87},{g:"80–84 (A-)",min:80,p:3.7,l:"A-",repr:82},{g:"77–79 (B+)",min:77,p:3.3,l:"B+",repr:78},{g:"73–76 (B)",min:73,p:3.0,l:"B",repr:74},{g:"70–72 (B-)",min:70,p:2.7,l:"B-",repr:71},{g:"60–69 (C)",min:60,p:2.0,l:"C",repr:65},{g:"50–59 (D)",min:50,p:1.0,l:"D",repr:55},{g:"Below 50 (F)",min:0,p:0,l:"F",repr:40}]},
-    {id:"germany",country:"Germany",system:"1.0–5.0 (1 best)",type:"number",max:5,step:"0.1",rows:[{g:"1.0–1.5 (Sehr gut)",min:1.0,p:4.0,l:"A",repr:1.3},{g:"1.6–2.5 (Gut)",min:1.6,p:3.3,l:"B+",repr:2.0},{g:"2.6–3.5 (Befriedigend)",min:2.6,p:2.7,l:"B-",repr:3.0},{g:"3.6–4.0 (Ausreichend)",min:3.6,p:2.0,l:"C",repr:3.8},{g:"4.1–5.0 (Nicht bestanden)",min:4.1,p:0,l:"F",repr:4.7}]}
+    {id:"india10",country:"India",system:"10-point CGPA",type:"number",max:10,step:"0.01",rows:[{g:"9.0–10 (O)",min:9.0,p:4.0,l:"A"},{g:"8.0–8.9 (A+)",min:8.0,p:3.7,l:"A-"},{g:"7.0–7.9 (A)",min:7.0,p:3.3,l:"B+"},{g:"6.0–6.9 (B+)",min:6.0,p:3.0,l:"B"},{g:"5.0–5.9 (B)",min:5.0,p:2.3,l:"C+"},{g:"4.0–4.9 (C)",min:4.0,p:2.0,l:"C"},{g:"Below 4.0 (F)",min:0,p:0,l:"F"}]},
+    {id:"indiapct",country:"India",system:"Percentage",type:"number",max:100,step:"0.1",rows:[{g:"90–100%",min:90,p:4.0,l:"A"},{g:"80–89%",min:80,p:3.7,l:"A-"},{g:"70–79%",min:70,p:3.3,l:"B+"},{g:"60–69%",min:60,p:3.0,l:"B"},{g:"50–59%",min:50,p:2.3,l:"C+"},{g:"40–49%",min:40,p:2.0,l:"C"},{g:"Below 40%",min:0,p:0,l:"F"}]},
+    {id:"pakhec",country:"Pakistan",system:"HEC 4.0 CGPA",type:"number",max:4,step:"0.01",rows:[{g:"3.7–4.0",min:3.7,p:4.0,l:"A"},{g:"3.3–3.69",min:3.3,p:3.7,l:"A-"},{g:"3.0–3.29",min:3.0,p:3.3,l:"B+"},{g:"2.7–2.99",min:2.7,p:3.0,l:"B"},{g:"2.0–2.69",min:2.0,p:2.3,l:"C+"},{g:"1.0–1.99",min:1.0,p:1.3,l:"D+"},{g:"Below 1.0",min:0,p:0,l:"F"}]},
+    {id:"canada",country:"Canada",system:"Percentage",type:"number",max:100,step:"0.1",rows:[{g:"90–100 (A+)",min:90,p:4.0,l:"A+"},{g:"85–89 (A)",min:85,p:4.0,l:"A"},{g:"80–84 (A-)",min:80,p:3.7,l:"A-"},{g:"77–79 (B+)",min:77,p:3.3,l:"B+"},{g:"73–76 (B)",min:73,p:3.0,l:"B"},{g:"70–72 (B-)",min:70,p:2.7,l:"B-"},{g:"60–69 (C)",min:60,p:2.0,l:"C"},{g:"50–59 (D)",min:50,p:1.0,l:"D"},{g:"Below 50 (F)",min:0,p:0,l:"F"}]}
   ];
 
   var SCALE_BY_ID = {}; SCALES.forEach(function(s){ SCALE_BY_ID[s.id] = s; });
@@ -36,23 +33,32 @@
   var state = {
     country: "India",
     scaleId: "india10",
-    rows: [{ id: uid(), name: "Mathematics", grade: "8.5", credits: 4 }]
+    rows: [{ id: uid(), name: "Course 1", grade: "8.5", credits: 4 }]
   };
 
   // --- LOGIC ---
   function getScale() { return SCALE_BY_ID[state.scaleId] || SCALES[0]; }
 
-  function pointsFor(scale, val) {
+  function usLetter(p) {
+    if (p >= 3.85) return "A"; if (p >= 3.7) return "A-"; if (p >= 3.3) return "B+";
+    if (p >= 3.0) return "B"; if (p >= 2.7) return "B-"; if (p >= 2.3) return "C+";
+    if (p >= 2.0) return "C"; if (p >= 1.7) return "C-"; if (p >= 1.3) return "D+";
+    if (p >= 1.0) return "D"; if (p >= 0.7) return "D-"; return "F";
+  }
+
+  function getPtsAndLetter(scale, val) {
+    var pts = 0, letter = "F";
     if (scale.type === "select") {
       var found = scale.rows.find(function(x) { return x.g === val; });
-      return found ? found.p : 0;
+      if (found) { pts = found.p; letter = found.l; }
+    } else {
+      var v = parseFloat(val) || 0;
+      var sorted = scale.rows.slice().sort(function(a, b) { return (b.min || 0) - (a.min || 0); });
+      for (var i = 0; i < sorted.length; i++) {
+        if (v >= sorted[i].min) { pts = sorted[i].p; letter = sorted[i].l || usLetter(pts); break; }
+      }
     }
-    var v = parseFloat(val) || 0;
-    var sorted = scale.rows.slice().sort(function(a, b) { return (b.min || 0) - (a.min || 0); });
-    for (var i = 0; i < sorted.length; i++) {
-      if (v >= sorted[i].min) return sorted[i].p;
-    }
-    return 0;
+    return { pts: pts, letter: letter };
   }
 
   function compute() {
@@ -61,8 +67,8 @@
     
     state.rows.forEach(function (r) {
       var cr = parseFloat(r.credits) || 0;
-      var pts = pointsFor(scale, r.grade);
-      if (cr > 0) { tCr += cr; tQp += (pts * cr); }
+      var res = getPtsAndLetter(scale, r.grade);
+      if (cr > 0) { tCr += cr; tQp += (res.pts * cr); }
     });
 
     var finalGpa = tCr ? (tQp / tCr).toFixed(2) : "0.00";
@@ -70,39 +76,23 @@
     if ($("#mCourses")) $("#mCourses").textContent = state.rows.length;
     if ($("#mCredits")) $("#mCredits").textContent = tCr.toFixed(1);
     if ($("#mQp")) $("#mQp").textContent = tQp.toFixed(1);
+    if ($("#gpaLetter")) $("#gpaLetter").textContent = tCr ? ("US " + usLetter(parseFloat(finalGpa))) : "Add a course to begin";
   }
 
   function renderCountry() {
     var countryEl = $("#country");
     if (!countryEl) return;
-
-    var countries = [];
-    var seen = {};
-    SCALES.forEach(function (s) {
-      if (!seen[s.country]) { seen[s.country] = true; countries.push(s.country); }
-    });
-
-    countryEl.innerHTML = countries.map(function (c) {
-      return '<option ' + (c === state.country ? "selected" : "") + '>' + esc(c) + '</option>';
-    }).join("");
-    
+    var countries = []; var seen = {};
+    SCALES.forEach(function (s) { if (!seen[s.country]) { seen[s.country] = true; countries.push(s.country); } });
+    countryEl.innerHTML = countries.map(function(c) { return '<option ' + (c === state.country ? "selected" : "") + '>' + esc(c) + '</option>'; }).join("");
     renderScaleOptions();
   }
 
   function renderScaleOptions() {
-    var countryEl = $("#country");
-    if (!countryEl) return;
-    state.country = countryEl.value;
-
-    var list = SCALES.filter(function (s) { return s.country === state.country; });
-    if (!list.some(function (s) { return s.id === state.scaleId; })) state.scaleId = list[0].id;
-
-    var scaleEl = $("#scaleSel");
-    if (!scaleEl) return;
-    scaleEl.innerHTML = list.map(function (s) {
-      return '<option value="' + s.id + '" ' + (s.id === state.scaleId ? "selected" : "") + '>' + esc(s.system) + '</option>';
-    }).join("");
-    
+    state.country = $("#country").value;
+    var list = SCALES.filter(function(s) { return s.country === state.country; });
+    if (!list.some(function(s) { return s.id === state.scaleId; })) state.scaleId = list[0].id;
+    $("#scaleSel").innerHTML = list.map(function(s) { return '<option value="' + s.id + '" ' + (s.id === state.scaleId ? "selected" : "") + '>' + esc(s.system) + '</option>'; }).join("");
     renderRows();
   }
 
@@ -124,68 +114,84 @@
         '</div>';
     }).join("");
 
-    // Attach row events
     $$(".crow").forEach(function(row) {
       var id = row.getAttribute("data-id");
-      var inputs = row.querySelectorAll("[data-f]");
-      for (var i=0; i<inputs.length; i++) {
-        inputs[i].oninput = function() {
+      var inps = row.querySelectorAll("[data-f]");
+      for(var i=0; i<inps.length; i++) {
+        inps[i].oninput = function() {
           var r = state.rows.find(function(x) { return x.id === id; });
           if (r) { r[this.getAttribute("data-f")] = this.value; compute(); }
         };
       }
     });
 
-    // Delete buttons
-    var delBtns = $$("[data-del]");
-    for (var j=0; j<delBtns.length; j++) {
-      delBtns[j].onclick = function() {
-        var id = this.getAttribute("data-del");
-        state.rows = state.rows.filter(function(r) { return r.id !== id; });
+    $$("[data-del]").forEach(function(btn) {
+      btn.onclick = function() {
+        state.rows = state.rows.filter(function(r) { return r.id !== btn.getAttribute("data-del"); });
         renderRows();
       };
-    }
+    });
     compute();
+  }
+
+  function exportReport() {
+    var scale = getScale();
+    var tCr = 0, tQp = 0;
+    var rowsHtml = "";
+
+    state.rows.forEach(function (r) {
+      var cr = parseFloat(r.credits) || 0;
+      var res = getPtsAndLetter(scale, r.grade);
+      var qp = (res.pts * cr);
+      tCr += cr; tQp += qp;
+      rowsHtml += '<tr><td>' + esc(r.name || "Course") + '</td><td>' + esc(r.grade) + '</td><td>' + res.letter + '</td><td>' + res.pts.toFixed(2) + '</td><td>' + cr + '</td><td>' + qp.toFixed(2) + '</td></tr>';
+    });
+
+    if (tCr === 0) { alert("Please add courses with credits first."); return; }
+
+    var finalGpa = (tQp / tCr).toFixed(2);
+    var reportArea = $("#report");
+    if (!reportArea) return;
+
+    reportArea.innerHTML = '<div style="font-family:sans-serif; padding:40px; color:#111;">' +
+      '<h1 style="margin-bottom:5px;">GPA Conversion Report</h1>' +
+      '<p style="color:#666; margin-top:0;">Source: ' + scale.country + ' (' + scale.system + ')</p>' +
+      '<div style="background:#f4f4f4; padding:20px; border-radius:10px; margin:20px 0; display:flex; gap:40px;">' +
+      '<div><small>US GPA (4.0)</small><br><b style="font-size:32px;">' + finalGpa + '</b></div>' +
+      '<div><small>US Letter</small><br><b style="font-size:32px;">' + usLetter(parseFloat(finalGpa)) + '</b></div>' +
+      '</div>' +
+      '<table border="1" style="width:100%; border-collapse:collapse; text-align:left;" cellpadding="10">' +
+      '<thead style="background:#eee;"><tr><th>Course</th><th>Local Grade</th><th>US Letter</th><th>US Pts</th><th>Credits</th><th>Quality Pts</th></tr></thead>' +
+      '<tbody>' + rowsHtml + '</tbody>' +
+      '<tfoot><tr style="font-weight:bold;"><td colspan="4">TOTALS</td><td>' + tCr + '</td><td>' + tQp.toFixed(2) + '</td></tr></tfoot>' +
+      '</table>' +
+      '<p style="margin-top:30px; font-size:12px; color:#999;">Generated by Study Metrics. This report is for guidance only.</p>' +
+      '</div>';
+    
+    window.print();
   }
 
   // --- INITIALIZE ---
   function init() {
     renderCountry();
-
-    var countryEl = $("#country");
-    if (countryEl) countryEl.onchange = renderScaleOptions;
-
-    var scaleEl = $("#scaleSel");
-    if (scaleEl) scaleEl.onchange = function() { state.scaleId = this.value; renderRows(); };
-
-    var addFn = function() {
-      state.rows.push({ id: uid(), name: "", grade: "0", credits: 3 });
-      renderRows();
-    };
+    if ($("#country")) $("#country").onchange = renderScaleOptions;
+    if ($("#scaleSel")) $("#scaleSel").onchange = function() { state.scaleId = this.value; renderRows(); };
+    
+    var addFn = function() { state.rows.push({ id: uid(), name: "", grade: "0", credits: 3 }); renderRows(); };
     if ($("#addRow")) $("#addRow").onclick = addFn;
     if ($("#addRow2")) $("#addRow2").onclick = addFn;
+    if ($("#clearAll")) $("#clearAll").onclick = function() { if(confirm("Clear all rows?")) { state.rows = []; renderRows(); } };
+    if ($("#exportBtn")) $("#exportBtn").onclick = exportReport;
 
-    if ($("#clearAll")) $("#clearAll").onclick = function() {
-      if (confirm("Clear all rows?")) { state.rows = []; renderRows(); }
-    };
-
-    // Mode toggles
-    var modeBtns = $$(".mode-seg button");
-    modeBtns.forEach(function(btn) {
+    $$(".mode-seg button").forEach(function(btn) {
       btn.onclick = function() {
         var m = this.getAttribute("data-mode");
-        modeBtns.forEach(function(b) { b.classList.toggle("on", b === btn); });
-        var p1 = $("#panel-toUS"), p2 = $("#panel-toLocal");
-        if (p1) p1.classList.toggle("hidden", m !== "toUS");
-        if (p2) p2.classList.toggle("hidden", m !== "toLocal");
+        $$(".mode-seg button").forEach(function(b) { b.classList.toggle("on", b === btn); });
+        $("#panel-toUS").classList.toggle("hidden", m !== "toUS");
+        $("#panel-toLocal").classList.toggle("hidden", m !== "toLocal");
       };
     });
   }
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", init);
-  } else {
-    init();
-  }
-
+  if (document.readyState === "loading") { document.addEventListener("DOMContentLoaded", init); } else { init(); }
 })();
