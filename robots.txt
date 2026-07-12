@@ -3,10 +3,13 @@
 
 User-agent: *
 Allow: /
+# Prevent indexing of the 404 page and internal documentation
+Disallow: /404.html
+Disallow: /LAUNCH-CHECKLIST.md
 
 # Let Google's ad crawler read pages so AdSense can serve relevant ads
 User-agent: Mediapartners-Google
 Allow: /
 
-# Sitemap location (update the domain)
+# Sitemap location
 Sitemap: https://studymetrics.app/sitemap.xml
