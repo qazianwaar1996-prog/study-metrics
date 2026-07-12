@@ -1,5 +1,5 @@
 /**
- * WORD COUNTER LOGIC
+ * WORD COUNTER LOGIC - Fixed & Optimized
  */
 (function () {
   "use strict";
@@ -14,67 +14,101 @@
     // Load saved text from local storage
     editor.value = store.get(KEY, "");
 
-    /**
-     * The Main Counting Engine
-     */
     function count() {
       var t = editor.value;
       store.set(KEY, t);
 
-      // 1. Words (Standard regex for alphanumeric clusters)
-      var wordsMatch = t.match(/\b[\w'’-]+\b/g) || [];
+      // 1. Words
+      // We use a filter to remove empty strings caused by multiple spaces
+      var wordsMatch = t.trim().split(/\s+/).filter(function(word) {
+        return word.length > 0;
+      });
       var wordCount = wordsMatch.length;
 
-      // 2. Characters (With and without spaces)
+      // 2. Characters
       var charCount = t.length;
       var noSpaceCount = t.replace(/\s/g, "").length;
 
-      // 3. Sentences (Looking for punctuation boundaries)
-      var sentMatch = t.match(/[^.!?]+[.!?]+(\s|$)/g) || [];
-      var sentCount = sentMatch.filter(function(s) { return s.trim().length > 0; }).length || (t.trim() ? 1 : 0);
+      // 3. Sentences
+      // Matches groups of characters ending in . ! or ?
+      var sentMatch = t.match(/[^\.!\?]+[\.!\?]+/g) || [];
+      var sentCount = sentMatch.length;
+      // Fallback for text that doesn't end in punctuation yet
+      if (sentCount === 0 && t.trim().length > 0) sentCount = 1;
 
-      // 4. Paragraphs (Splitting by newlines)
-      var paraCount = t.split(/\n+/).map(function(p) { return p.trim(); }).filter(Boolean).length;
+      // 4. Paragraphs
+      var paraCount = t.split(/\n+/).filter(function(p) {
+        return p.trim().length > 0;
+      }).length;
 
       // 5. Reading Time (Average 200 words per minute)
-      var readSec = Math.round(wordCount / 200 * 60);
-      var timeStr = readSec < 60 ? readSec + "s" : Math.floor(readSec / 60) + "m " + (readSec % 60) + "s";
+      var readSec = Math.round((wordCount / 200) * 60);
+      var timeStr = "0s";
+      if (readSec > 0) {
+        if (readSec < 60) {
+          timeStr = readSec + "s";
+        } else {
+          timeStr = Math.floor(readSec / 60) + "m " + (readSec % 60) + "s";
+        }
+      }
 
       // 6. Longest Word
-      var longest = wordsMatch.reduce(function(a, b) { 
-        return b.length > a.length ? b : a; 
-      }, "");
+      var longest = "";
+      wordsMatch.forEach(function(word) {
+        // Strip punctuation from word for length comparison
+        var cleanWord = word.replace(/[^\w-]/g, "");
+        if (cleanWord.length > longest.length) {
+          longest = cleanWord;
+        }
+      });
 
-      // Update UI
-      $("#s_words").textContent = wordCount.toLocaleString();
-      $("#s_chars").textContent = charCount.toLocaleString();
-      $("#s_nospace").textContent = noSpaceCount.toLocaleString();
-      $("#s_sent").textContent = sentCount.toLocaleString();
-      $("#s_para").textContent = paraCount.toLocaleString();
-      $("#s_read").textContent = timeStr;
-      $("#s_avg").textContent = sentCount ? Math.round(wordCount / sentCount) : 0;
-      $("#s_long").textContent = longest ? longest + " (" + longest.length + ")" : "—";
+      // Update UI Elements
+      var elWords = $("#s_words");
+      var elChars = $("#s_chars");
+      var elNoSpace = $("#s_nospace");
+      var elSent = $("#s_sent");
+      var elPara = $("#s_para");
+      var elRead = $("#s_read");
+      var elAvg = $("#s_avg");
+      var elLong = $("#s_long");
+
+      if (elWords) elWords.textContent = wordCount.toLocaleString();
+      if (elChars) elChars.textContent = charCount.toLocaleString();
+      if (elNoSpace) elNoSpace.textContent = noSpaceCount.toLocaleString();
+      if (elSent) elSent.textContent = sentCount.toLocaleString();
+      if (elPara) elPara.textContent = paraCount.toLocaleString();
+      if (elRead) elRead.textContent = timeStr;
+      
+      if (elAvg) {
+        elAvg.textContent = sentCount > 0 ? Math.round(wordCount / sentCount) : 0;
+      }
+      
+      if (elLong) {
+        elLong.textContent = longest ? longest + " (" + longest.length + ")" : "—";
+      }
     }
 
-    // Live listening
+    // Attach Input Listener
     editor.addEventListener("input", count);
 
-    // Toolbar Actions
+    // Copy Button
     var copyBtn = $("#copyBtn");
     if (copyBtn) {
       copyBtn.onclick = function () {
-        if (!editor.value) {
+        if (!editor.value.trim()) {
           SM.toast("Nothing to copy", "info");
           return;
         }
-        SM.copy(editor.value); // Uses SM utility from script.js
+        SM.copy(editor.value);
       };
     }
 
+    // Clear Button
     var clearBtn = $("#clearBtn");
     if (clearBtn) {
       clearBtn.onclick = function () {
-        if (editor.value && confirm("Clear all text?")) {
+        if (!editor.value) return;
+        if (confirm("Clear all text?")) {
           editor.value = "";
           count();
           editor.focus();
@@ -83,7 +117,7 @@
       };
     }
 
-    // Run once on load
+    // Initial count
     count();
   });
 })();
