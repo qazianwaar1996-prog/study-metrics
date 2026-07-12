@@ -1,20 +1,23 @@
 /**
- * BULLETPROOF GLOBAL GPA CONVERTER - STUDY METRICS
- * This version is self-contained and will work even if script.js fails.
+ * GLOBAL GPA CONVERTER - STUDY METRICS
+ * This version is 100% self-contained. 
+ * It does not require script.js to work.
  */
 (function () {
   "use strict";
 
-  // --- INTERNAL UTILITIES (Replaces SM dependency for maximum reliability) ---
-  var $ = function(s) { return document.querySelector(s); };
-  var $$ = function(s) { return Array.from(document.querySelectorAll(s)); };
-  var esc = function(s) { 
-    return String(s).replace(/[&<>"']/g, function(m) { 
+  // --- INTERNAL UTILITIES ---
+  var $ = function (s) { return document.querySelector(s); };
+  var $$ = function (s) { return Array.prototype.slice.call(document.querySelectorAll(s)); };
+  var esc = function (s) { 
+    if (!s) return "";
+    return String(s).replace(/[&<>"']/g, function (m) { 
       return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" }[m]; 
     }); 
   };
+  var uid = function () { return Math.random().toString(36).slice(2, 9); };
 
-  // --- DATABASE ---
+  // --- GRADING DATABASE ---
   var SCALES = [
     {id:"us40",country:"United States",system:"4.0 Letter (GPA)",type:"select",rows:[{g:"A+",p:4,l:"A+"},{g:"A",p:4,l:"A"},{g:"A-",p:3.7,l:"A-"},{g:"B+",p:3.3,l:"B+"},{g:"B",p:3,l:"B"},{g:"B-",p:2.7,l:"B-"},{g:"C+",p:2.3,l:"C+"},{g:"C",p:2,l:"C"},{g:"C-",p:1.7,l:"C-"},{g:"D+",p:1.3,l:"D+"},{g:"D",p:1,l:"D"},{g:"D-",p:0.7,l:"D-"},{g:"F",p:0,l:"F"}]},
     {id:"uk",country:"United Kingdom",system:"Honours Classification",type:"select",rows:[{g:"First (1st, 70–100%)",p:4.0,l:"A"},{g:"Upper Second (2:1, 60–69%)",p:3.7,l:"A-"},{g:"Lower Second (2:2, 50–59%)",p:3.0,l:"B"},{g:"Third (3rd, 40–49%)",p:2.3,l:"C+"},{g:"Fail (0–39%)",p:0,l:"F"}]},
@@ -29,15 +32,16 @@
 
   var SCALE_BY_ID = {}; SCALES.forEach(function(s){ SCALE_BY_ID[s.id] = s; });
 
-  // --- STATE ---
+  // --- APP STATE ---
   var state = {
-    mode: "toUS",
     country: "India",
     scaleId: "india10",
-    rows: [{ id: "r1", name: "Sample Course", grade: "8.5", credits: 4 }]
+    rows: [{ id: uid(), name: "Mathematics", grade: "8.5", credits: 4 }]
   };
 
   // --- LOGIC ---
+  function getScale() { return SCALE_BY_ID[state.scaleId] || SCALES[0]; }
+
   function pointsFor(scale, val) {
     if (scale.type === "select") {
       var found = scale.rows.find(function(x) { return x.g === val; });
@@ -52,34 +56,36 @@
   }
 
   function compute() {
-    var scale = SCALE_BY_ID[state.scaleId];
-    var totalCr = 0, totalQp = 0;
+    var scale = getScale();
+    var tCr = 0, tQp = 0;
     
     state.rows.forEach(function (r) {
       var cr = parseFloat(r.credits) || 0;
       var pts = pointsFor(scale, r.grade);
-      if (cr > 0) { totalCr += cr; totalQp += (pts * cr); }
+      if (cr > 0) { tCr += cr; tQp += (pts * cr); }
     });
 
-    var finalGpa = totalCr ? (totalQp / totalCr).toFixed(2) : "0.00";
+    var finalGpa = tCr ? (tQp / tCr).toFixed(2) : "0.00";
     if ($("#gpaOut")) $("#gpaOut").textContent = finalGpa;
     if ($("#mCourses")) $("#mCourses").textContent = state.rows.length;
-    if ($("#mCredits")) $("#mCredits").textContent = totalCr.toFixed(1);
-    if ($("#mQp")) $("#mQp").textContent = totalQp.toFixed(1);
+    if ($("#mCredits")) $("#mCredits").textContent = tCr.toFixed(1);
+    if ($("#mQp")) $("#mQp").textContent = tQp.toFixed(1);
   }
 
   function renderCountry() {
+    var countryEl = $("#country");
+    if (!countryEl) return;
+
     var countries = [];
     var seen = {};
     SCALES.forEach(function (s) {
       if (!seen[s.country]) { seen[s.country] = true; countries.push(s.country); }
     });
 
-    var countryEl = $("#country");
-    if (!countryEl) return;
     countryEl.innerHTML = countries.map(function (c) {
       return '<option ' + (c === state.country ? "selected" : "") + '>' + esc(c) + '</option>';
     }).join("");
+    
     renderScaleOptions();
   }
 
@@ -96,80 +102,90 @@
     scaleEl.innerHTML = list.map(function (s) {
       return '<option value="' + s.id + '" ' + (s.id === state.scaleId ? "selected" : "") + '>' + esc(s.system) + '</option>';
     }).join("");
+    
     renderRows();
   }
 
   function renderRows() {
-    var scale = SCALE_BY_ID[state.scaleId];
-    var rowsContainer = $("#rows");
-    if (!rowsContainer) return;
+    var scale = getScale();
+    var container = $("#rows");
+    if (!container) return;
 
-    rowsContainer.innerHTML = state.rows.map(function (r) {
-      var gradeInput = scale.type === "select" ?
-        '<select class="select" data-f="grade">' + scale.rows.map(function (x) { return '<option ' + (r.grade === x.g ? "selected" : "") + '>' + esc(x.g) + '</option>'; }).join("") + '</select>' :
+    container.innerHTML = state.rows.map(function(r) {
+      var gIn = scale.type === "select" ? 
+        '<select class="select" data-f="grade">' + scale.rows.map(function(x) { return '<option ' + (r.grade===x.g?'selected':'') + '>' + esc(x.g) + '</option>'; }).join("") + '</select>' :
         '<input class="input tnum" data-f="grade" type="number" step="' + scale.step + '" value="' + esc(r.grade) + '">';
 
       return '<div class="crow" data-id="' + r.id + '">' +
-        '<div class="c-name"><input class="input" data-f="name" value="' + esc(r.name) + '" placeholder="Course Name"></div>' +
-        '<div class="c-grade">' + gradeInput + '</div>' +
+        '<div class="c-name"><input class="input" data-f="name" value="' + esc(r.name) + '" placeholder="Course"></div>' +
+        '<div class="c-grade">' + gIn + '</div>' +
         '<div class="c-credit"><input class="input tnum" data-f="credits" type="number" value="' + esc(r.credits) + '"></div>' +
         '<div class="c-del"><button class="row-del" data-del="' + r.id + '">✕</button></div>' +
         '</div>';
     }).join("");
 
     // Attach row events
-    $$(".crow").forEach(function (row) {
+    $$(".crow").forEach(function(row) {
       var id = row.getAttribute("data-id");
-      row.querySelectorAll("[data-f]").forEach(function (inp) {
-        inp.oninput = function () {
-          var r = state.rows.find(function (x) { return x.id === id; });
-          if (r) { r[inp.getAttribute("data-f")] = inp.value; compute(); }
+      var inputs = row.querySelectorAll("[data-f]");
+      for (var i=0; i<inputs.length; i++) {
+        inputs[i].oninput = function() {
+          var r = state.rows.find(function(x) { return x.id === id; });
+          if (r) { r[this.getAttribute("data-f")] = this.value; compute(); }
         };
-      });
+      }
     });
 
-    // Delete button events
-    $$("[data-del]").forEach(function (btn) {
-      btn.onclick = function () {
-        var id = btn.getAttribute("data-del");
-        state.rows = state.rows.filter(function (r) { return r.id !== id; });
+    // Delete buttons
+    var delBtns = $$("[data-del]");
+    for (var j=0; j<delBtns.length; j++) {
+      delBtns[j].onclick = function() {
+        var id = this.getAttribute("data-del");
+        state.rows = state.rows.filter(function(r) { return r.id !== id; });
         renderRows();
       };
-    });
-
+    }
     compute();
   }
 
-  // --- INITIALIZATION ---
-  document.addEventListener("DOMContentLoaded", function () {
+  // --- INITIALIZE ---
+  function init() {
     renderCountry();
 
-    if ($("#country")) $("#country").onchange = renderScaleOptions;
-    if ($("#scaleSel")) $("#scaleSel").onchange = function() { state.scaleId = this.value; renderRows(); };
+    var countryEl = $("#country");
+    if (countryEl) countryEl.onchange = renderScaleOptions;
 
-    var addBtn = $("#addRow");
-    var addBtn2 = $("#addRow2");
+    var scaleEl = $("#scaleSel");
+    if (scaleEl) scaleEl.onchange = function() { state.scaleId = this.value; renderRows(); };
+
     var addFn = function() {
-      state.rows.push({ id: Math.random().toString(36).substr(2, 9), name: "", grade: "0", credits: 3 });
+      state.rows.push({ id: uid(), name: "", grade: "0", credits: 3 });
       renderRows();
     };
-    if (addBtn) addBtn.onclick = addFn;
-    if (addBtn2) addBtn2.onclick = addFn;
+    if ($("#addRow")) $("#addRow").onclick = addFn;
+    if ($("#addRow2")) $("#addRow2").onclick = addFn;
 
     if ($("#clearAll")) $("#clearAll").onclick = function() {
       if (confirm("Clear all rows?")) { state.rows = []; renderRows(); }
     };
 
-    // Tab Toggling logic
-    $$(".mode-seg button").forEach(function(btn){
+    // Mode toggles
+    var modeBtns = $$(".mode-seg button");
+    modeBtns.forEach(function(btn) {
       btn.onclick = function() {
-        var m = btn.getAttribute("data-mode");
-        $$(".mode-seg button").forEach(function(b){ b.classList.toggle("on", b === btn); });
+        var m = this.getAttribute("data-mode");
+        modeBtns.forEach(function(b) { b.classList.toggle("on", b === btn); });
         var p1 = $("#panel-toUS"), p2 = $("#panel-toLocal");
         if (p1) p1.classList.toggle("hidden", m !== "toUS");
         if (p2) p2.classList.toggle("hidden", m !== "toLocal");
       };
     });
-  });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
 
 })();
