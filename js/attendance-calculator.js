@@ -1,24 +1,19 @@
-
-```javascript
 /**
- * ATTENDANCE CALCULATOR LOGIC
- * Optimized for Study Metrics
+ * ATTENDANCE CALCULATOR LOGIC - Optimized
  */
 
 (function () {
   "use strict";
 
-  // Use the SM helper tools we defined in script.js
   var $ = SM.$;
   var $$ = SM.$$;
   var store = SM.store;
   
-  // Settings
-  var CIRC = 2 * Math.PI * 78; 
+  // Circumference for r=78 is ~490
+  var CIRC = 490; 
   var KEY = "sm_attend";
 
   document.addEventListener("DOMContentLoaded", function () {
-    // Select Elements
     var attendedInput = $("#attended");
     var heldInput = $("#held");
     var reqInput = $("#req");
@@ -28,7 +23,8 @@
     var v = $("#verdict");
     var vt = $("#verdictText");
 
-    // 1. LOAD SAVED DATA
+    if (!attendedInput || !heldInput || !reqInput) return;
+
     var saved = store.get(KEY, null);
     if (saved) {
       attendedInput.value = saved.a;
@@ -36,68 +32,71 @@
       reqInput.value = saved.r;
     }
 
-    // 2. THE CALCULATION ENGINE
     function calc() {
-      var a = Math.max(0, parseInt(attendedInput.value) || 0);
-      var h = Math.max(0, parseInt(heldInput.value) || 0);
+      var a = Math.max(0, parseInt(attendedInput.value));
+      var h = Math.max(0, parseInt(heldInput.value));
       var r = SM.clamp(parseInt(reqInput.value) || 0, 0, 100);
 
-      // Save to local storage
+      if (isNaN(a)) a = 0;
+      if (isNaN(h)) h = 0;
+
       store.set(KEY, { a: a, h: h, r: r });
 
-      // Validation: Attended cannot be more than held
-      if (h <= 0 || a > h) {
+      if (h === 0) {
         pctEl.textContent = "—";
-        st.textContent = a > h ? "Attended exceeds total" : "Enter total classes";
+        st.textContent = "Enter class details";
         arc.style.strokeDashoffset = CIRC;
-        v.className = "verdict warn";
-        vt.innerHTML = "<b>Check your numbers</b>Attended can't be more than classes held.";
+        v.className = "verdict info";
+        vt.innerHTML = "Enter your class details to see your verdict.";
+        return;
+      }
+
+      if (a > h) {
+        pctEl.textContent = "—";
+        st.textContent = "Error in numbers";
+        arc.style.strokeDashoffset = CIRC;
+        v.className = "verdict bad";
+        vt.innerHTML = "<b>Invalid input</b>Attended classes cannot exceed total classes held.";
         return;
       }
 
       var pct = SM.round((a / h) * 100, 1);
       pctEl.textContent = pct + "%";
       
-      // Animate the Ring
       var offset = CIRC - (CIRC * Math.min(pct, 100) / 100);
       arc.style.strokeDashoffset = offset;
 
       var rf = r / 100;
 
-      // Logic for "Can Skip" vs "Must Attend"
       if (pct >= r) {
-        // Safe to skip logic
         var canSkip = rf > 0 ? Math.floor(a / rf - h) : Infinity;
         arc.style.stroke = "var(--ok, #2ecc71)";
-        st.textContent = "Above the " + r + "% minimum";
+        st.textContent = "Safe: Above " + r + "%";
         v.className = "verdict ok";
         
         if (canSkip >= 1) {
-          vt.innerHTML = "<b>You can skip " + canSkip + " more class" + (canSkip === 1 ? "" : "es") + "</b> and still stay above " + r + "%.";
+          vt.innerHTML = "<b>You can skip " + canSkip + " more class" + (canSkip === 1 ? "" : "es") + "</b> and stay above the required " + r + "%.";
         } else {
-          vt.innerHTML = "<b>You're right at the edge!</b> You're above " + r + "%, but if you miss the next class, you'll drop below.";
+          vt.innerHTML = "<b>Maintain your streak!</b> You're above " + r + "%, but missing the next class will put you below the limit.";
         }
       } else {
-        // Recovery logic
         var needAttend = rf < 1 ? Math.ceil((rf * h - a) / (1 - rf)) : Infinity;
         arc.style.stroke = "var(--danger, #e74c3c)";
-        st.textContent = "Below the " + r + "% minimum";
+        st.textContent = "Danger: Below " + r + "%";
         v.className = "verdict bad";
 
         if (isFinite(needAttend) && needAttend > 0) {
-          vt.innerHTML = "<b>Attend the next " + needAttend + " class" + (needAttend === 1 ? "" : "es") + "</b> without missing any to reach " + r + "%.";
+          vt.innerHTML = "<b>Attend the next " + needAttend + " class" + (needAttend === 1 ? "" : "es") + "</b> without fail to reach your " + r + "% goal.";
         } else {
-          vt.innerHTML = "<b>Recovery isn't possible</b> at 100% requirement. Lower the goal or check inputs.";
+          vt.innerHTML = "<b>Recovery impossible</b> with a 100% requirement. Lower your goal or check your inputs.";
         }
       }
     }
 
-    // 3. EVENT LISTENERS
     [attendedInput, heldInput, reqInput].forEach(function (el) {
       el.addEventListener("input", calc);
     });
 
-    // 4. RESET BUTTON FEATURE
     var resetBtn = $("#resetBtn");
     if (resetBtn) {
       resetBtn.addEventListener("click", function() {
@@ -105,23 +104,22 @@
         heldInput.value = "";
         reqInput.value = 75;
         calc();
-        SM.toast("Values Reset", "info");
+        SM.toast("Reset successfully", "info");
       });
     }
 
-    // 5. SHARE FEATURE
     var shareBtn = $("#shareBtn");
     if (shareBtn) {
       shareBtn.addEventListener("click", function() {
-        var text = "My attendance is " + pctEl.textContent + ". Check yours at StudyMetrics.app!";
-        SM.copy(text); // Uses the copy tool from our script.js
+        if (pctEl.textContent === "—") {
+            SM.toast("No results to copy", "info");
+            return;
+        }
+        var text = "My attendance is " + pctEl.textContent + ". Calculated on Study Metrics.";
+        SM.copy(text);
       });
     }
 
-    // Run once on load
     calc();
   });
 })();
-```
-
----
