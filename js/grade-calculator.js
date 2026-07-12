@@ -1,3 +1,6 @@
+/**
+ * GRADE CALCULATOR LOGIC - Fixed & Optimized
+ */
 (function () {
   "use strict";
 
@@ -23,15 +26,10 @@
 
   if (!rows.length) {
     rows = [
-      { id: uid(), name: "Homework", score: 92, weight: 15 },
-      { id: uid(), name: "Quizzes", score: 85, weight: 20 },
-      { id: uid(), name: "Midterm", score: 78, weight: 25 },
-      { id: uid(), name: "Final Exam", score: 88, weight: 40 }
+      { id: uid(), name: "Assignments", score: 90, weight: 20 },
+      { id: uid(), name: "Midterm", score: 85, weight: 30 },
+      { id: uid(), name: "Final Exam", score: 88, weight: 50 }
     ];
-  }
-
-  function find(id) {
-    return rows.find(function(r) { return r.id === id; });
   }
 
   function render() {
@@ -42,16 +40,16 @@
       return `
         <div class="crow" data-id="${r.id}">
           <div class="c-name">
-            <input class="input" data-f="name" value="${esc(r.name)}" placeholder="e.g. Midterm">
+            <input class="input" data-f="name" value="${esc(r.name)}" placeholder="Item name">
           </div>
           <div class="c-a">
-            <input class="input tnum" data-f="score" type="number" min="0" step="0.1" value="${r.score}" placeholder="0–100">
+            <input class="input tnum" data-f="score" type="number" min="0" step="0.1" value="${r.score}" placeholder="Score %">
           </div>
           <div class="c-b">
-            <input class="input tnum" data-f="weight" type="number" min="0" step="0.5" value="${r.weight}" placeholder="%">
+            <input class="input tnum" data-f="weight" type="number" min="0" step="0.5" value="${r.weight}" placeholder="Weight %">
           </div>
           <div class="c-del">
-            <button class="row-del" data-del="${r.id}" aria-label="Remove Row">
+            <button class="row-del" data-del="${r.id}" title="Remove">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
             </button>
           </div>
@@ -65,15 +63,20 @@
   function attachEvents() {
     $$(".crow").forEach(function (row) {
       var id = row.getAttribute("data-id");
-      $$("[data-f]", row).forEach(function (inp) {
-        inp.addEventListener("input", function () {
-          var r = find(id);
+      var inputs = $$("input", row);
+      
+      inputs.forEach(function (inp) {
+        var field = inp.getAttribute("data-f");
+        if (!field) return;
+
+        inp.oninput = function () {
+          var r = rows.find(function(x) { return x.id === id; });
           if (r) {
-            r[inp.getAttribute("data-f")] = inp.value;
+            r[field] = inp.value;
             save();
             compute();
           }
-        });
+        };
       });
     });
 
@@ -91,7 +94,7 @@
   function compute() {
     var totalWeight = 0, weightedSum = 0;
     rows.forEach(function (r) {
-      var w = Math.max(0, parseFloat(r.weight) || 0);
+      var w = parseFloat(r.weight) || 0;
       var s = parseFloat(r.score) || 0;
       if (w > 0) {
         totalWeight += w;
@@ -99,28 +102,31 @@
       }
     });
 
-    var grade = totalWeight ? round(weightedSum / totalWeight, 2) : 0;
+    var grade = totalWeight > 0 ? round(weightedSum / totalWeight, 2) : 0;
     
-    $("#gradeOut").textContent = totalWeight ? grade.toFixed(2) + "%" : "—";
-    $("#gradeLetter").textContent = totalWeight ? letter(grade) : "—";
-    
+    var out = $("#gradeOut");
+    var letBox = $("#gradeLetter");
     var note = $("#weightNote");
-    if (!note) return;
 
-    if (!totalWeight) {
-      note.className = "weight-note ok";
-      note.innerHTML = "<b>Add an item</b> to calculate your weighted grade.";
-    } else {
-      var twR = round(totalWeight, 1);
-      if (Math.abs(totalWeight - 100) < 0.5) {
+    if (out) out.textContent = totalWeight > 0 ? grade.toFixed(2) + "%" : "—";
+    if (letBox) letBox.textContent = totalWeight > 0 ? letter(grade) : "—";
+    
+    if (note) {
+      if (!totalWeight) {
         note.className = "weight-note ok";
-        note.innerHTML = "<b>Weights total 100%.</b> Course projection is complete.";
-      } else if (totalWeight < 100) {
-        note.className = "weight-note warn";
-        note.innerHTML = "<b>Weights total " + twR + "%.</b> Add remaining weights (like the final) for a full projection.";
+        note.innerHTML = "<b>Ready to calculate?</b> Add your first graded item.";
       } else {
-        note.className = "weight-note warn";
-        note.innerHTML = "<b>Weights total " + twR + "%.</b> Exceeds 100%: check your inputs.";
+        var twR = round(totalWeight, 1);
+        if (Math.abs(totalWeight - 100) < 0.1) {
+          note.className = "weight-note ok";
+          note.innerHTML = "<b>Weights total 100%.</b> Your overall grade is accurate.";
+        } else if (totalWeight < 100) {
+          note.className = "weight-note warn";
+          note.innerHTML = "<b>Weights total " + twR + "%.</b> This is your grade based on work done so far.";
+        } else {
+          note.className = "weight-note warn";
+          note.innerHTML = "<b>Weights total " + twR + "%.</b> Total exceeds 100%, please check your weights.";
+        }
       }
     }
   }
@@ -131,40 +137,34 @@
     rows.push({ id: uid(), name: "", score: "", weight: "" });
     save();
     render();
-    SM.toast("Row added", "success");
-    
-    var lastRow = $$(".crow").pop();
-    if (lastRow) {
-      var inp = lastRow.querySelector("input");
-      if (inp) inp.focus();
-    }
+    SM.toast("Item added", "success");
   }
 
   document.addEventListener("DOMContentLoaded", function () {
-    var addBtn = $("#addRow");
-    var addBtn2 = $("#addRow2");
-    var clearBtn = $("#clearAll");
-    var shareBtn = $("#shareBtn");
+    var add1 = $("#addRow");
+    var add2 = $("#addRow2");
+    var clear = $("#clearAll");
+    var share = $("#shareBtn");
 
-    if (addBtn) addBtn.onclick = addItem;
-    if (addBtn2) addBtn2.onclick = addItem;
+    if (add1) add1.onclick = addItem;
+    if (add2) add2.onclick = addItem;
 
-    if (clearBtn) {
-      clearBtn.onclick = function () {
-        if (confirm("Clear all grade entries?")) {
+    if (clear) {
+      clear.onclick = function () {
+        if (confirm("Clear all items?")) {
           rows = [];
           save();
           render();
-          SM.toast("Cleared all items", "info");
+          SM.toast("Cleared all entries", "info");
         }
       };
     }
 
-    if (shareBtn) {
-      shareBtn.onclick = function() {
-        var g = $("#gradeOut").textContent;
-        if (g === "—") return SM.toast("Enter grades first", "error");
-        SM.copy("My current course grade is " + g + "! via Study Metrics");
+    if (share) {
+      share.onclick = function() {
+        var g = $("#gradeOut") ? $("#gradeOut").textContent : "—";
+        if (g === "—") return SM.toast("Enter items first", "error");
+        SM.copy("My current course grade is " + g + "! Calculated on Study Metrics.");
       };
     }
 
