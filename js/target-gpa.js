@@ -1,31 +1,32 @@
-/* Study Metrics — Target GPA Calculator  ·  /js/target-gpa.js */
+/**
+ * TARGET GPA CALCULATOR LOGIC - Fixed & Optimized
+ */
 (function () {
   "use strict";
+
   var $ = SM.$, round = SM.round, clamp = SM.clamp, store = SM.store;
   var KEY = "sm_target";
 
   document.addEventListener("DOMContentLoaded", function () {
-    var saved = store.get(KEY, null);
-    
-    // Select elements
     var curGpaEl = $("#curGpa");
     var curCredEl = $("#curCredits");
     var remCredEl = $("#remCredits");
     var goalGpaEl = $("#goalGpa");
     var goalSlideEl = $("#goalSlide");
     var goalSlideValEl = $("#goalSlideVal");
+    
+    var v = $("#verdict");
+    var vt = $("#verdictText");
+    var ne = $("#need");
+    var ns = $("#needSub");
 
-    // Initialize values from storage if they exist
+    // Load saved data
+    var saved = store.get(KEY, null);
     if (saved) {
       curGpaEl.value = saved.cur;
       curCredEl.value = saved.cc;
       remCredEl.value = saved.rc;
       goalGpaEl.value = saved.goal;
-    }
-
-    if (goalSlideEl) {
-      goalSlideEl.value = goalGpaEl.value;
-      goalSlideValEl.textContent = (parseFloat(goalGpaEl.value) || 0).toFixed(2);
     }
 
     function calc() {
@@ -34,26 +35,21 @@
       var rc = Math.max(0, parseFloat(remCredEl.value) || 0);
       var goal = clamp(parseFloat(goalGpaEl.value) || 0, 0, 4);
 
-      // Save inputs for persistence
+      // Save state
       store.set(KEY, { cur: cur, cc: cc, rc: rc, goal: goal });
 
-      var tot = cc + rc || 1;
+      var tot = cc + rc;
       
-      // Update progress bar visuals if they exist in HTML
+      // Update Progress Bar & Legend
       var segDone = $("#segDone");
       var segNeed = $("#segNeed");
-      if (segDone) segDone.style.width = (cc / tot * 100) + "%";
-      if (segNeed) segNeed.style.width = (rc / tot * 100) + "%";
-      
       var legDone = $("#legDone");
       var legNeed = $("#legNeed");
+
+      if (segDone) segDone.style.width = tot > 0 ? (cc / tot * 100) + "%" : "0%";
+      if (segNeed) segNeed.style.width = tot > 0 ? (rc / tot * 100) + "%" : "0%";
       if (legDone) legDone.textContent = cc + " cr";
       if (legNeed) legNeed.textContent = rc + " cr";
-
-      var v = $("#verdict");
-      var vt = $("#verdictText");
-      var ne = $("#need");
-      var ns = $("#needSub");
 
       function setV(cls, title, text) {
         if (v && vt) {
@@ -62,93 +58,89 @@
         }
       }
 
-      // Validation for remaining credits
-      if (rc <= 0) {
-        ne.textContent = "—";
-        ns.textContent = "waiting for input";
-        setV("info", "Add remaining credits", "Enter how many credits you have left to see what you need to average.");
+      // Logic check for input
+      if (rc <= 0 || isNaN(rc)) {
+        if (ne) ne.textContent = "—";
+        if (ns) ns.textContent = "waiting for credits";
+        setV("info", "Enter remaining credits", "We need to know how many credits you have left to calculate the requirement.");
         return;
       }
 
       // Formula: (Goal * TotalCredits - CurrentGPA * CurrentCredits) / RemainingCredits
-      var need = (goal * tot - cur * cc) / rc;
+      var need = (goal * (cc + rc) - (cur * cc)) / rc;
       var finalNeeded = round(need, 2);
 
+      if (ne) ne.textContent = finalNeeded <= 0 ? "0.00" : finalNeeded.toFixed(2);
+
       if (finalNeeded <= 0) {
-        ne.textContent = "0.00";
-        ns.textContent = "you're already there";
-        setV("ok", "Goal already secured 🎉", "Even a 0.0 across your remaining credits keeps you at or above your goal.");
-        return;
-      }
-
-      if (finalNeeded > 4) {
-        ne.textContent = finalNeeded.toFixed(2);
-        ns.textContent = "not reachable";
-        setV("bad", "Out of reach", "You would need a " + finalNeeded.toFixed(2) + " average, which exceeds the 4.0 maximum.");
-        return;
-      }
-
-      ne.textContent = finalNeeded.toFixed(2);
-      ns.textContent = "across your remaining credits";
-
-      if (finalNeeded <= 2.7) {
-        setV("ok", "Very achievable", "Comfortably within reach. Consistent work will get you there.");
-      } else if (finalNeeded <= 3.3) {
-        setV("info", "Achievable with focus", "A solid effort each term will land it. Keep pushing.");
-      } else if (finalNeeded <= 3.7) {
-        setV("warn", "Ambitious but doable", "You'll need to average around an A- across everything left.");
+        if (ns) ns.textContent = "goal already met";
+        setV("ok", "Goal secured 🎉", "Your current standing is already at or above your target GPA.");
+      } else if (finalNeeded > 4.0) {
+        if (ns) ns.textContent = "mathematically impossible";
+        setV("bad", "Out of reach", "Even with a perfect 4.0 in all remaining classes, you cannot reach this goal.");
       } else {
-        setV("warn", "Very demanding", "Near-perfect grades required from here. Every assignment counts.");
+        if (ns) ns.textContent = "required average";
+        if (finalNeeded <= 3.0) {
+          setV("ok", "Very achievable", "This target is well within reach with steady performance.");
+        } else if (finalNeeded <= 3.5) {
+          setV("info", "Doable with effort", "You'll need to stay focused and aim for mostly A's and B's.");
+        } else {
+          setV("warn", "High performance needed", "You'll need to maintain near-perfect grades to hit this target.");
+        }
       }
     }
 
-    // Input Events
-    ["curGpa", "curCredits", "remCredits", "goalGpa"].forEach(function (id) {
-      var el = $("#" + id);
-      if (el) {
-        el.addEventListener("input", function () {
-          if (id === "goalGpa") {
-            goalSlideEl.value = goalGpaEl.value;
-            goalSlideValEl.textContent = (parseFloat(goalGpaEl.value) || 0).toFixed(2);
-          }
-          calc();
-        });
-      }
-    });
-
-    // Slider Event
-    if (goalSlideEl) {
-      goalSlideEl.addEventListener("input", function () {
-        goalGpaEl.value = (parseFloat(goalSlideEl.value)).toFixed(2);
-        goalSlideValEl.textContent = (parseFloat(goalSlideEl.value)).toFixed(2);
+    // Input Sync Logic
+    if (curGpaEl) curGpaEl.oninput = calc;
+    if (curCredEl) curCredEl.oninput = calc;
+    if (remCredEl) remCredEl.oninput = calc;
+    
+    if (goalGpaEl) {
+      goalGpaEl.oninput = function() {
+        var val = clamp(parseFloat(this.value) || 0, 0, 4);
+        if (goalSlideEl) goalSlideEl.value = val;
+        if (goalSlideValEl) goalSlideValEl.textContent = val.toFixed(2);
         calc();
-      });
+      };
     }
 
-    // Reset Feature
+    if (goalSlideEl) {
+      goalSlideEl.oninput = function() {
+        var val = parseFloat(this.value);
+        if (goalGpaEl) goalGpaEl.value = val.toFixed(2);
+        if (goalSlideValEl) goalSlideValEl.textContent = val.toFixed(2);
+        calc();
+      };
+    }
+
+    // Action Buttons
     var resetBtn = $("#resetBtn");
     if (resetBtn) {
-      resetBtn.onclick = function () {
-        curGpaEl.value = "";
-        curCredEl.value = "";
-        remCredEl.value = "";
+      resetBtn.onclick = function() {
+        curGpaEl.value = "3.00";
+        curCredEl.value = "60";
+        remCredEl.value = "60";
         goalGpaEl.value = "3.50";
         if (goalSlideEl) goalSlideEl.value = "3.50";
+        if (goalSlideValEl) goalSlideValEl.textContent = "3.50";
         calc();
-        SM.toast("Fields reset", "info");
+        SM.toast("Reset to defaults", "info");
       };
     }
 
-    // Share/Copy Feature
     var shareBtn = $("#shareBtn");
     if (shareBtn) {
-      shareBtn.onclick = function () {
-        var needed = ne.textContent;
-        if (needed === "—") return SM.toast("Enter details first", "error");
-        SM.copy("I need to maintain a " + needed + " GPA to reach my goal! via Study Metrics");
+      shareBtn.onclick = function() {
+        var val = ne ? ne.textContent : "—";
+        if (val === "—") return;
+        SM.copy("I need to average a " + val + " to reach my goal! Check yours on Study Metrics.");
       };
     }
 
+    // Initial Sync
+    if (goalSlideValEl && goalGpaEl) {
+        goalSlideValEl.textContent = (parseFloat(goalGpaEl.value) || 0).toFixed(2);
+    }
     calc();
   });
 })();
