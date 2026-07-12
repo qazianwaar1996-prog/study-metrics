@@ -12,9 +12,10 @@ Work top to bottom. Each phase depends on the one before it.
 - [ ] Find-and-replace **`studymetrics.app`** with your real domain across ALL files (HTML, sitemap.xml, robots.txt).
 - [ ] Replace **`hello@studymetrics.app`** with your real email (about, contact, privacy, terms).
 - [ ] Confirm the folder has every file:
-  - Pages: index, gpa, cgpa, target-gpa, final-grade, grade-calculator, percentage-calculator, attendance-calculator, word-counter, about, contact, privacy-policy, terms-and-conditions, disclaimer
-  - Assets: favicon.svg, favicon.png, og-image.png, sitemap.xml, robots.txt
-  - From your v1: manifest.json, service-worker.js, 404.html, blog.html
+  - **HTML Pages:** index, gpa, cgpa, target-gpa, final-grade, grade-calculator, percentage-calculator, attendance-calculator, word-counter, about, contact, privacy-policy, terms-and-conditions, disclaimer, 404, blog.
+  - **CSS:** style.css, gpa-converter.css.
+  - **JS:** script.js, gpa.js, cgpa.js, target-gpa.js, final-grade.js, grade-calculator.js, percentage-calculator.js, attendance-calculator.js, word-counter.js, gpa-converter.js.
+  - **Assets:** favicon.svg, favicon.png, og-image.png, sitemap.xml, robots.txt, manifest.json, service-worker.js.
 
 ## Phase 1 — Test locally
 
@@ -27,7 +28,7 @@ Work top to bottom. Each phase depends on the one before it.
 
 - [ ] Create a free GitHub account.
 - [ ] New repository → name it (e.g. `study-metrics`) → set **Public** → Create.
-- [ ] **Add file → Upload files** → drag the whole folder in → Commit. (No command line needed.)
+- [ ] **Add file → Upload files** → drag the whole folder in → Commit.
 - [ ] **Settings → Pages** → Source: *Deploy from a branch* → Branch: **main** → Folder: **/ (root)** → Save.
 - [ ] Wait ~1 min. Visit `https://YOURNAME.github.io/study-metrics/` and re-test everything.
 
@@ -43,18 +44,18 @@ Work top to bottom. Each phase depends on the one before it.
 - [ ] Add your site at **search.google.com/search-console** and verify ownership.
 - [ ] Submit **sitemap.xml**.
 - [ ] Use "URL Inspection" to request indexing on your homepage + top 3 tools.
-- [ ] Test a tool page in the **Rich Results Test** (search.google.com/test/rich-results) to confirm the FAQ schema is detected.
+- [ ] Test a tool page in the **Rich Results Test** to confirm the FAQ schema is detected.
 
 ## Phase 5 — AdSense (only AFTER the site is live + has real content)
 
 - [ ] Sign up at **adsense.google.com** with your domain.
-- [ ] Paste the AdSense loader `<script>` into the `<head>` of every page (there's a comment marking the spot).
+- [ ] Paste the AdSense loader `<script>` into the `<head>` of every page.
 - [ ] Submit for review. **Don't panic if it takes days/weeks.**
 - [ ] Once approved: replace each `.ad-slot` placeholder block with your real `<ins class="adsbygoogle">` ad unit.
 
-> ⚠️ Do NOT apply to AdSense until the site is fully live with working tools and the legal pages filled in. Applying on a thin or "under construction" site gets you rejected, and reapplying is slow.
+> ⚠️ Do NOT apply to AdSense until the site is fully live with working tools and the legal pages filled in. 
 
-## Phase 6 — SEO growth (ongoing, this is how you beat Scholaro)
+## Phase 6 — SEO growth (ongoing)
 
 - [ ] Write blog posts targeting long-tail searches: "how to convert CGPA to GPA", "how many classes can I skip at 75%", "what do I need on my final to get an A".
 - [ ] Add internal links from blog posts to the relevant tool.
@@ -70,4 +71,4 @@ Work top to bottom. Each phase depends on the one before it.
 - Broader toolkit (GPA + attendance + percentage + word counter), not just GPA.
 
 ## Current status: site is BUILT
-14 pages, 8 working tools, branded, SEO-loaded, AdSense-ready. Everything left is mechanical (convert 2 images, swap domain, deploy).
+14 pages, 9 working tools, branded, SEO-loaded, AdSense-ready.
